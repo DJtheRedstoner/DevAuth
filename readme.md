@@ -63,6 +63,12 @@ will use and refresh the stored tokens as necessary. You will be prompted to go 
 OAuth again once your refresh token expires (my research leads me to think it should last 90 days)
 or is revoked.
 
+For some reason when clicking "Use Another account" in the OAuth account picker, microsoft
+immediately redirects you to the redirect uri with the error 
+`access_denied: The user has denied access to the scope requested by the client application.`.
+Unless I am doing something wrong, this is caused by an issue on Microsoft's side. I recommend copying
+the OAuth url into a private browser in order to log in.
+
 # Safety and Security
 
 I like to think of DevAuth as safe and somewhat secure. Yes, Mojang account passwords are
