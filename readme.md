@@ -17,7 +17,7 @@ place it in your mods folder and configure it uses the configuration section bel
 
 # Configuration
 
-DevAuth is configured though JVM properties and a configuration file.
+DevAuth is configured through JVM properties and a configuration file.
 JVM Properties can be by adding `-D<propertyName>=<value>` to your JVM arguments
 or by using [`System.setProperty`][setProperty] before DevAuth initialized 
 (fabric `preLaunch` entrypoint for example).
