@@ -26,8 +26,6 @@ allprojects {
             rename { "LICENSE_DevAuth.txt" }
             duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         }
-
-        println("${project.name} ${archiveClassifier.get()}")
     }
 }
 
