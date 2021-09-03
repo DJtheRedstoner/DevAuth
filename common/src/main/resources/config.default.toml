@@ -1,0 +1,6 @@
+#defaultAcount = "main"
+
+[accounts.main]
+type = "mojang"
+username = "example@example.com"
+password = "hunter12"

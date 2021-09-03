@@ -1,0 +1,44 @@
+buildscript {
+    repositories {
+        maven { url = "https://maven.minecraftforge.net/" }
+    }
+    dependencies {
+        classpath "net.minecraftforge.gradle:ForgeGradle:5.+"
+    }
+}
+
+apply plugin: "net.minecraftforge.gradle"
+
+configurations {
+    include { transitive = false }
+    implementation.extendsFrom(include)
+}
+
+minecraft {
+    mappings channel: "snapshot", version: "20171003-1.12"
+
+    runs {
+        client {
+            workingDirectory project.file("run")
+            jvmArg "-Dfml.coreMods.load=me.djtheredstoner.devauth.forge.legacy.DevAuthLoadingPlugin"
+        }
+    }
+}
+
+dependencies {
+    minecraft "net.minecraftforge:forge:1.12.2-14.23.5.2855"
+
+    include project(":common")
+    include "com.electronwill.night-config:core:3.6.4"
+    include "com.electronwill.night-config:toml:3.6.4"
+}
+
+jar.finalizedBy("reobfJar")
+
+jar {
+    from configurations.include.collect() { zipTree(it) }
+
+    manifest.attributes(
+        "FMLCorePlugin": "me.djtheredstoner.devauth.forge.legacy.DevAuthLoadingPlugin"
+    )
+}

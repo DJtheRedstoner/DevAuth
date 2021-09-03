@@ -1,0 +1,21 @@
+{
+  "schemaVersion": 1,
+  "id": "devauth",
+  "version": "${version}",
+
+  "name": "DevAuth",
+  "description": "Safely authenticate Microsoft and Mojang accounts in development environments.",
+  "authors": [
+    "DJtheRedstoner"
+  ],
+
+  "license": "MIT",
+
+  "environment": "client",
+  "mixins": [
+    "mixins.devauth.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.4"
+  }
+}
