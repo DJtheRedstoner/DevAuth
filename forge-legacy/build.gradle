@@ -8,6 +8,7 @@ buildscript {
 }
 
 apply plugin: "net.minecraftforge.gradle"
+apply plugin: "com.github.johnrengelman.shadow"
 
 configurations {
     include { transitive = false }
@@ -31,14 +32,23 @@ dependencies {
     include project(":common")
     include "com.electronwill.night-config:core:3.6.4"
     include "com.electronwill.night-config:toml:3.6.4"
+    include "com.google.code.gson:gson:2.4"
 }
 
-jar.finalizedBy("reobfJar")
-
 jar {
-    from configurations.include.collect() { zipTree(it) }
+    enabled = false
+}
+
+shadowJar {
+    archiveClassifier.set("")
+
+    configurations = [project.configurations.include]
 
     manifest.attributes(
         "FMLCorePlugin": "me.djtheredstoner.devauth.forge.legacy.DevAuthLoadingPlugin"
     )
+
+    relocate "com.google.gson", "me.djtheredstoner.devauth.gson"
 }
+
+jar.dependsOn(shadowJar)
