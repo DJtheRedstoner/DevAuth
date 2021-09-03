@@ -12,3 +12,4 @@ include("common")
 
 include("fabric")
 include("forge-legacy")
+include("forge-latest")
