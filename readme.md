@@ -77,10 +77,5 @@ into encrypting them would be silly. The Microsoft account tokens stored in `mic
 only provide limited access to your account and can be revoked by removing the DevAuth app [here][manageConsent].
 If you don't think this is secure enough, make an issue or pull request.
 
-# Todo
-
-- forge-latest support (1.14-1.17)
-- CI
-
 [setProperty]: https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/System.html#setProperty(java.lang.String,java.lang.String)
 [manageConsent]: https://account.live.com/consent/Manage
