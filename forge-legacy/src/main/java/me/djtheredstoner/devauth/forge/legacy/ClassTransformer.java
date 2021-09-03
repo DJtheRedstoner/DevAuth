@@ -23,7 +23,7 @@ public class ClassTransformer implements IClassTransformer {
                 InsnList list = new InsnList();
                 list.add(new VarInsnNode(Opcodes.ALOAD, 0));
                 list.add(new MethodInsnNode(Opcodes.INVOKESTATIC,
-                    "me/djtheredstoner/devauth/forge/legacy/ForgeBootstrap",
+                    "me/djtheredstoner/devauth/forge/legacy/ForgeLegacyBootstrap",
                     "processArguments",
                     "([Ljava/lang/String;)[Ljava/lang/String;",
                     false
