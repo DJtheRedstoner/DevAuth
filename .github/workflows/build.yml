@@ -24,7 +24,7 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle-
 
-      - run: ./gradlew build && ./gradlew --stop
+      - run: ./gradlew --no-daemon build
 
       - uses: actions/upload-artifact@v2
         with:
