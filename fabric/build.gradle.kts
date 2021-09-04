@@ -6,7 +6,7 @@ loom {
     runConfigs {
         named("client") {
             ideConfigGenerated(true)
-            runDir(project.file("run").absolutePath)
+            runDir(project.file("run").relativeTo(project.rootDir).path)
         }
     }
 }
