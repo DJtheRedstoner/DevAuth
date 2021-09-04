@@ -11,6 +11,8 @@
 
   "license": "MIT",
 
+  "icon": "logo.png",
+
   "environment": "client",
   "mixins": [
     "mixins.devauth.json"

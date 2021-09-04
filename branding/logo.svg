@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   width="64mm"
+   height="64mm"
+   viewBox="0 0 64 64"
+   version="1.1"
+   id="svg8">
+  <defs
+     id="defs2">
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter917"
+       x="-0.051928163"
+       width="1.105598"
+       y="-0.21617877"
+       height="1.4698122">
+      <feGaussianBlur
+         stdDeviation="1.2930694e-05"
+         id="feGaussianBlur919" />
+    </filter>
+    <filter
+       style="color-interpolation-filters:sRGB"
+       id="filter1016"
+       x="-4.7752597e-06"
+       width="1.0000096"
+       y="-4.825002e-06"
+       height="1.0000097">
+      <feGaussianBlur
+         stdDeviation="0.0001289576"
+         id="feGaussianBlur1018" />
+    </filter>
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <rect
+     style="opacity:0.988;fill:#00b44b;stroke-width:0.264583;filter:url(#filter1016);fill-opacity:1"
+     id="rect962"
+     width="64.812859"
+     height="64.144684"
+     x="0.00030949822"
+     y="-4.0058385e-16"
+     transform="matrix(0.98744879,0,0,0.99773477,1.5898106e-6,3.0719907e-4)" />
+  <g
+     id="layer1" />
+  <text
+     xml:space="preserve"
+     style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.4px;line-height:1.25;font-family:Belgium;-inkscape-font-specification:Belgium;text-align:center;writing-mode:lr-tb;text-anchor:middle;white-space:pre;inline-size:121.52;opacity:0.998;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583;filter:url(#filter917)"
+     x="87.482262"
+     y="163.56895"
+     id="text903"
+     transform="matrix(0.57703514,0,0,0.57703514,-18.594972,-38.404907)"><tspan
+       x="87.482262"
+       y="163.56895"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:25.4px;font-family:Belgium;-inkscape-font-specification:Belgium;text-align:center;writing-mode:lr-tb;text-anchor:middle;stroke-width:0.264583">DevAuth</tspan></tspan></text>
+  <g
+     id="g946"
+     transform="matrix(0.44119204,0,0,0.44119204,-5.9398139,-20.722845)">
+    <path
+       id="path932"
+       d="m 130.56253,90.811774 h -2.57077 v -9.42617 a 23.137031,23.137031 0 0 0 -46.274055,0 v 9.42617 h -2.57077 a 6.8553964,6.8553964 0 0 0 -6.8554,6.8554 v 35.990836 a 6.8553964,6.8553964 0 0 0 6.8554,6.8554 h 51.415595 a 6.8553964,6.8553964 0 0 0 6.8554,-6.8554 V 97.667174 a 6.8553964,6.8553964 0 0 0 -6.8554,-6.8554 z M 97.999271,111.37797 a 6.8553964,6.8553964 0 1 1 10.283149,5.90593 v 7.80487 a 3.42772,3.42772 0 0 1 -6.85544,0 v -7.80487 a 6.8348302,6.8348302 0 0 1 -3.427709,-5.90593 z M 90.286955,81.385604 a 14.567775,14.567775 0 0 1 29.135545,0 v 7.71232 a 1.7138491,1.7138491 0 0 1 -1.71386,1.71385 H 92.000795 a 1.7138491,1.7138491 0 0 1 -1.71384,-1.71385 z"
+       style="stroke-width:3.4277" />
+    <path
+       clip-rule="evenodd"
+       d="m 45.902151,68.832087 c -0.0019,-2.751528 2.236026,-4.989412 4.988432,-4.988433 2.752115,-6.78e-4 4.989707,2.236905 4.97964,4.97964 l 0.0095,1.97925 8.292003,9.93e-4 c 1.419199,-0.0011 2.555631,1.135353 2.555532,2.555528 v 12.358767 c 0.0011,1.419001 -1.13555,2.555821 -2.555725,2.555725 l -8.291027,-1.96e-4 -0.0094,14.779959 c 2.396852,0.76377 4.659161,2.10411 6.559465,4.00442 6.373821,6.37382 6.3746,16.70595 1.96e-4,23.08036 -6.373626,6.37363 -16.706731,6.37382 -23.080554,-1e-5 -6.374215,-6.37421 -6.373531,-16.70682 9.7e-5,-23.08045 1.900304,-1.90031 4.163004,-3.24045 6.559758,-4.00432 z m 0.549699,45.327083 c -2.450004,2.45001 -2.450004,6.42746 -1.96e-4,8.87727 2.450103,2.4501 6.427169,2.44971 8.877172,-3e-4 2.450004,-2.45 2.450104,-6.42677 2e-6,-8.87687 -2.449711,-2.44972 -6.427071,-2.45001 -8.876978,-1e-4 z"
+       fill="#010101"
+       fill-rule="evenodd"
+       id="path934"
+       style="stroke-width:0.138178" />
+  </g>
+</svg>

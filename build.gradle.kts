@@ -21,9 +21,16 @@ allprojects {
 
     tasks.withType<Jar> {
         archiveBaseName.set("${rootProject.name}-${project.name}")
+    }
 
-        from(rootProject.projectDir.resolve("LICENSE")) {
+    tasks.withType<ProcessResources> {
+        from(rootProject.file("LICENSE")) {
             rename { "LICENSE_DevAuth.txt" }
+            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+        }
+
+        from(rootProject.file("branding/logo128x.png")) {
+            rename { "logo.png" }
             duplicatesStrategy = DuplicatesStrategy.EXCLUDE
         }
     }
