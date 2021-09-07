@@ -51,7 +51,7 @@ import java.util.stream.Collectors;
  */
 public class MicrosoftAuthProvider implements IAuthProvider {
 
-    private static final String CLIENT_ID = "4a773e20-d900-4253-a041-01456e11a432";
+    private static final String CLIENT_ID = "757bb3b3-b7ca-4bcd-a160-c92e6379c263";
     private static final String SCOPES = "XboxLive.signin XboxLive.offline_access";
     private static final String REDIRECT_URI = "http://localhost:3000";
     private static final String OAUTH_URL = "https://login.live.com/oauth20_authorize.srf";
@@ -243,6 +243,7 @@ public class MicrosoftAuthProvider implements IAuthProvider {
             params.put("redirect_uri", REDIRECT_URI);
 
             HttpPost request = new HttpPost(OAUTH_TOKEN_URL);
+            request.setHeader("Origin", "http://localhost");
             request.setEntity(new UrlEncodedFormEntity(buildNameValuePairs(params)));
 
             HttpResponse response = client.execute(request);
@@ -364,7 +365,7 @@ public class MicrosoftAuthProvider implements IAuthProvider {
     }
 
     private RuntimeException oauthError(String error, String description) {
-        return new RuntimeException("OAuth error: " + error + " Description: " + description);
+        return new RuntimeException("OAuth error: " + error + ": " + description);
     }
 
     private RuntimeException httpError(HttpResponse response, String body) {
