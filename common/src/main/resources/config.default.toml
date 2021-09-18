@@ -1,4 +1,4 @@
-#defaultAcount = "main"
+#defaultAccount = "main"
 
 [accounts.main]
 type = "mojang"
