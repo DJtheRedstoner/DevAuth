@@ -33,7 +33,7 @@ or by using [`System.setProperty`][setProperty] before DevAuth initialized
 ## Configuration File:
 
 The configuration file is called `config.toml` and is located in your DevAuth config
-folder (defaults to `.devauth` in home directory).
+folder (defaults to `.devauth` in home directory, `C:\Users\<user>\.devauth` for Windows users).
 
 ```toml
 # choose which account to use when devauth.account property is not specified
