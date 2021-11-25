@@ -17,7 +17,10 @@ allprojects {
         targetCompatibility = "1.8"
 
         options.encoding = "UTF-8"
-        options.release.set(8)
+        // ForgeGradle... ForgeGradle... ForgeGradle...
+        if(!this::class.java.name.contains("HackyJavaCompile")) {
+            options.release.set(8)
+        }
     }
 
     tasks.withType<Jar> {
