@@ -3,3 +3,4 @@
 .gradle
 **/run
 .idea
+.vscode
