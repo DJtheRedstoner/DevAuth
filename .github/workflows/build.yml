@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-java@v2
         with:
           distribution: "temurin"
-          java-version: "16"
+          java-version: "17"
 
       - uses: actions/cache@v2
         with:
@@ -30,10 +30,12 @@ jobs:
 
       - run: ./gradlew --no-daemon build
 
+      - name: Get Short SHA
+        id: sha
+        run: echo "::set-output name=sha_short::$(git rev-parse --short HEAD)"
+
       - uses: actions/upload-artifact@v2
         with:
-          name: DevAuth-artifacts
+          name: DevAuth-artifacts-${{ steps.sha.outputs.sha_short }}
           path: |
-            **/build/libs/*
-            !**/build/libs/*-dev.jar
-            !common/build/libs/*
+            build/distributions/*.jar
