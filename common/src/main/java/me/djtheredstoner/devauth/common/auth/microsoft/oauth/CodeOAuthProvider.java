@@ -9,15 +9,18 @@ import me.djtheredstoner.devauth.common.util.Util;
 import me.djtheredstoner.devauth.common.util.request.Http;
 import me.djtheredstoner.devauth.common.util.request.HttpBuilder;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Logger;
 
 import java.awt.*;
+import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 
 public class CodeOAuthProvider extends OAuthProvider {
@@ -91,7 +94,11 @@ public class CodeOAuthProvider extends OAuthProvider {
                     return;
                 }
 
-                byte[] response = "<html><body><h1>You can now return to your game.</h1></body></html>".getBytes(StandardCharsets.UTF_8);
+                byte[] response;
+                try (InputStream is = CodeOAuthProvider.class.getResourceAsStream("/assets/devauth/oauth_redirect.html")) {
+                    Objects.requireNonNull(is);
+                    response = IOUtils.toByteArray(is);
+                }
                 req.getResponseHeaders().add("Content-Type", "text/html");
                 req.sendResponseHeaders(200, response.length);
                 req.getResponseBody().write(response);

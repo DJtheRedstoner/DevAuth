@@ -36,7 +36,7 @@ public class DevAuthConfig {
         if (!configFile.exists()) {
             configFile.getParentFile().mkdirs();
 
-            try (InputStream is = DevAuthConfig.class.getResourceAsStream("/config.default.toml")) {
+            try (InputStream is = DevAuthConfig.class.getResourceAsStream("/assets/devauth/config.default.toml")) {
                 if (is == null) {
                     throw new RuntimeException("Failed to locate default config file");
                 }
