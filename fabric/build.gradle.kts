@@ -1,20 +1,24 @@
+import me.djtheredstoner.devauth.build.configureMcProject
+
 plugins {
-    id("fabric-loom") version "0.9-SNAPSHOT"
+    id("gg.essential.loom") version "0.10.0.1"
 }
 
 loom {
     runConfigs {
         named("client") {
             ideConfigGenerated(true)
-            runDir(project.file("run").relativeTo(project.rootDir).path)
         }
+    }
+    mixin {
+        add(sourceSets.main.get(), "mixins.devauth.refmap.json")
     }
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:1.17.1")
-    mappings("net.fabricmc:yarn:1.17.1+build.49:v2")
-    modImplementation("net.fabricmc:fabric-loader:0.11.6")
+    minecraft("com.mojang:minecraft:1.18.2")
+    mappings("net.fabricmc:yarn:1.18.2+build.2:v2")
+    modImplementation("net.fabricmc:fabric-loader:0.13.3")
 
     api(project(":common"))
 
@@ -29,4 +33,14 @@ tasks.processResources {
     filesMatching("fabric.mod.json") {
         expand("version" to project.version)
     }
+
+    from(rootProject.file("LICENSE")) {
+        rename { "LICENSE_DevAuth.txt" }
+    }
+
+    from(rootProject.file("branding/logo128x.png")) {
+        rename { "assets/devauth/logo.png" }
+    }
 }
+
+configureMcProject()

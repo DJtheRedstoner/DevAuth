@@ -14,3 +14,13 @@ dependencies {
     implementation("commons-codec:commons-codec:1.10")              // 1.17.1: 1.10    1.12.2: 1.10    1.8.9: 1.9
     implementation("org.apache.httpcomponents:httpclient:4.3.3")    // 1.17.1: 4.3.3   1.12.2: 4.3.3   1.8.9: 4.3.3
 }
+
+tasks.processResources {
+    from(rootProject.file("LICENSE")) {
+        rename { "LICENSE_DevAuth.txt" }
+    }
+
+    from(rootProject.file("branding/logo128x.png")) {
+        rename { "assets/devauth/logo.png" }
+    }
+}
