@@ -23,8 +23,8 @@ dependencies {
     api(project(":common"))
 
     include(project(":common"))
-    include("com.electronwill.night-config:core:3.6.4")
-    include("com.electronwill.night-config:toml:3.6.4")
+    include("com.electronwill.night-config:core:3.6.5")
+    include("com.electronwill.night-config:toml:3.6.5")
 }
 
 tasks.processResources {

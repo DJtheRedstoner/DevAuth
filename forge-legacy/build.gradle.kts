@@ -30,8 +30,8 @@ dependencies {
     forge("net.minecraftforge:forge:1.12.2-14.23.0.2486")
 
     shade(project(":common"))
-    shade("com.electronwill.night-config:core:3.6.4")
-    shade("com.electronwill.night-config:toml:3.6.4")
+    shade("com.electronwill.night-config:core:3.6.5")
+    shade("com.electronwill.night-config:toml:3.6.5")
     shade("com.google.code.gson:gson:2.4")
 }
 
