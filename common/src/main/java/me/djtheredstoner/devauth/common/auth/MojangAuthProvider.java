@@ -1,21 +1,14 @@
 package me.djtheredstoner.devauth.common.auth;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import com.mojang.authlib.Agent;
 import com.mojang.authlib.UserAuthentication;
 import com.mojang.authlib.exceptions.AuthenticationException;
-import com.mojang.authlib.properties.PropertyMap;
 import com.mojang.authlib.yggdrasil.YggdrasilAuthenticationService;
 import me.djtheredstoner.devauth.common.config.Account;
 
 import java.net.Proxy;
 
 public class MojangAuthProvider implements IAuthProvider {
-
-    private final Gson gson = new GsonBuilder()
-        .registerTypeAdapter(PropertyMap.class, new PropertyMap.Serializer())
-        .create();
 
     @Override
     public SessionData login(Account account) {
@@ -35,8 +28,7 @@ public class MojangAuthProvider implements IAuthProvider {
         String uuid = auth.getSelectedProfile().getId().toString().replace("-", "");
         String username = auth.getSelectedProfile().getName();
         String userType = auth.getUserType().getName();
-        String userProperties = gson.toJson(auth.getUserProperties());
 
-        return new SessionData(accessToken, uuid, username, userType, userProperties);
+        return new SessionData(accessToken, uuid, username, userType, "{}");
     }
 }
