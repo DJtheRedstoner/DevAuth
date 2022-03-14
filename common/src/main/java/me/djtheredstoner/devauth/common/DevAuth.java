@@ -14,7 +14,7 @@ public class DevAuth {
     private static final Set<String> authOptions =
         new HashSet<>(Arrays.asList("--accessToken", "--uuid", "--username", "--userType", "--userProperties"));
 
-    private final boolean enabled;
+    private final Properties.BooleanState enabled;
     private final Logger logger;
     private DevAuthConfig config;
 
@@ -25,7 +25,7 @@ public class DevAuth {
 
     public String[] processArguments(String[] args) {
         DevAuthConfig maybeConfig = DevAuthConfig.load(false);
-        if (!isEnabled() && !maybeConfig.getDefaultEnabled()) {
+        if (!isEnabled(maybeConfig.getDefaultEnabled())) {
             logger.info("DevAuth disabled, not logging in!");
             return args;
         }
@@ -83,8 +83,12 @@ public class DevAuth {
         throw new RuntimeException("No account specified, specify one with the defaultAccount config option or the " + Properties.ACCOUNT.getFullKey() + " property");
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public boolean isEnabled(boolean defaultEnabled) {
+        if (enabled == Properties.BooleanState.NOT_SET) {
+            return defaultEnabled;
+        } else {
+            return enabled.toBoolean();
+        }
     }
 
     public DevAuthConfig getConfig() {
