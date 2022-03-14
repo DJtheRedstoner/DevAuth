@@ -2,7 +2,7 @@ package me.djtheredstoner.devauth.common;
 
 public enum Properties {
 
-    ENABLED("enabled", "true"),
+    ENABLED("enabled", "false"),
     CONFIG_DIR("configDir", null),
     ACCOUNT("account", null);
 

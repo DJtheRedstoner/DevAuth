@@ -16,7 +16,7 @@ public class DevAuth {
 
     private final boolean enabled;
     private final Logger logger;
-    private final DevAuthConfig config = DevAuthConfig.load();
+    private DevAuthConfig config;
 
     public DevAuth() {
         enabled = Properties.ENABLED.getBooleanValue();
@@ -24,10 +24,13 @@ public class DevAuth {
     }
 
     public String[] processArguments(String[] args) {
-        if (!isEnabled()) {
+        DevAuthConfig maybeConfig = DevAuthConfig.load(false);
+        if (!isEnabled() && !maybeConfig.getDefaultEnabled()) {
             logger.info("DevAuth disabled, not logging in!");
             return args;
         }
+
+        config = DevAuthConfig.load(true);
 
         SessionData data = login();
 

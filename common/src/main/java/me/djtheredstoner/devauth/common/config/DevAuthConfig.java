@@ -13,17 +13,19 @@ import java.util.*;
 
 public class DevAuthConfig {
 
+    private final boolean defaultEnabled;
     private final String defaultAccount;
     private final Map<String, Account> accounts;
     private final File configDir;
 
-    private DevAuthConfig(String defaultAccount, Map<String, Account> accounts, File configDir) {
+    private DevAuthConfig(boolean defaultEnabled, String defaultAccount, Map<String, Account> accounts, File configDir) {
+        this.defaultEnabled = defaultEnabled;
         this.defaultAccount = defaultAccount;
         this.accounts = accounts;
         this.configDir = configDir;
     }
 
-    public static DevAuthConfig load() {
+    public static DevAuthConfig load(boolean createDefaultConfig) {
         String configDirPath = Properties.CONFIG_DIR.getValue();
         if (configDirPath == null) configDirPath = Util.getDefaultConfigDir().getAbsolutePath();
 
@@ -34,6 +36,9 @@ public class DevAuthConfig {
         File configFile = new File(configDir, "config.toml");
 
         if (!configFile.exists()) {
+            if (!createDefaultConfig) {
+                return new DevAuthConfig(false, null, null, configDir);
+            }
             configFile.getParentFile().mkdirs();
 
             try (InputStream is = DevAuthConfig.class.getResourceAsStream("/assets/devauth/config.default.toml")) {
@@ -49,6 +54,7 @@ public class DevAuthConfig {
         FileConfig config = FileConfig.of(configFile);
         config.load();
 
+        boolean defaultEnabled = config.getOrElse("defaultEnabled", false);
         String defaultAccount = config.get("defaultAccount");
 
         Map<String, Account> accounts = new LinkedHashMap<>();
@@ -63,7 +69,11 @@ public class DevAuthConfig {
             ));
         }
 
-        return new DevAuthConfig(defaultAccount, accounts, configDir);
+        return new DevAuthConfig(defaultEnabled, defaultAccount, accounts, configDir);
+    }
+
+    public boolean getDefaultEnabled() {
+        return defaultEnabled;
     }
 
     public String getDefaultAccount() {

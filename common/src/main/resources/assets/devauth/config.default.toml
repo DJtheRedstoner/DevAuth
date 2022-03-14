@@ -1,6 +1,22 @@
+# This is a toml file.
+# Lines starting with '#' are comments, which are ignored
+# You can learn more about toml here: https://learnxinyminutes.com/docs/toml/
+
+# Uncomment this to make DevAuth active by default when added to a project
+# Devauth can be enabled for each project by setting devauth.enabled jvm property
+#defaultEnabled = true
+
+# Uncomment this to set a default account for all projects
+# The devauth.account jvm property can be used to set the account each project uses
 #defaultAccount = "main"
 
+# An example mojang account
 [accounts.main]
 type = "mojang"
 username = "example@example.com"
 password = "hunter12"
+
+# An example microsoft account
+# Note that you DO NOT need to put email and password for microsoft accounts
+[accounts.alt]
+type = "microsoft"
