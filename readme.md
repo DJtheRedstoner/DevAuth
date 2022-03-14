@@ -4,11 +4,11 @@ Safely authenticate Microsoft and Mojang accounts in development environments.
 
 # Minecraft Version Support
 
-| Versions | Module | Supported |
-| ------ | -------- | :---------: |
-| 1.14 - 1.17.1 fabric | `fabric` | ✅ |
-| 1.8.9 - 1.12.2 forge | `forge-legacy` | ✅ |
-| 1.14 - 1.17.1 forge | `forge-latest` | ✅ |
+| Versions             | Module         |  Supported   |
+|----------------------|----------------|:------------:|
+| 1.14 - 1.18.2 fabric | `fabric`       |      ✅       |
+| 1.8.9 - 1.12.2 forge | `forge-legacy` |      ✅       |
+| 1.14 - 1.18.2 forge  | `forge-latest` |      ✅       |
 
 # Usage
 
@@ -24,18 +24,25 @@ or by using [`System.setProperty`][setProperty] before DevAuth initialized
 
 ## JVM Properties:
 
-| Property | Description | Default |
-| :------: | :---------- | :----- |
-| `devauth.enabled` | Enables DevAuth | `true` |
-| `devauth.configDir` | Selects the config directory | `.devauth` folder in home directory |
-| `devauth.account` | Select the account to log into | none
+|       Property        | Description                    | Default                             |
+|:---------------------:|:-------------------------------|:------------------------------------|
+|   `devauth.enabled`   | Enables DevAuth                | `false`                             |
+|  `devauth.configDir`  | Selects the config directory   | `.devauth` folder in home directory |
+|   `devauth.account`   | Select the account to log into | none                                |
 
 ## Configuration File:
+
+**NEW: The `devauth.enabled` property now defaults to false and a default configuration wil not be created
+until DevAuth has been enabled once. Then you can set the `defaultEnabled` config property to make DevAuth
+active by default in every project.**
 
 The configuration file is called `config.toml` and is located in your DevAuth config
 folder (defaults to `.devauth` in home directory, `C:\Users\<user>\.devauth` for Windows users).
 
 ```toml
+# chose if devauth should be on by default in new projects
+defaultEnabled = true
+
 # choose which account to use when devauth.account property is not specified
 defaultAccount = "main"
 
@@ -52,7 +59,7 @@ type = "microsoft"
 When the `devauth.account` property is specified it takes precedence over the
 `defaultAccount` config option.
 
-A default config will be automatically created when DevAuth is first loaded.
+A default config will be automatically created when DevAuth is first enabled.
 
 # Microsoft Accounts
 
@@ -63,17 +70,11 @@ will use and refresh the stored tokens as necessary. You will be prompted to go 
 OAuth again once your refresh token expires (my research leads me to think it should last 90 days)
 or is revoked.
 
-For some reason when clicking "Use Another account" in the OAuth account picker, microsoft
-immediately redirects you to the redirect uri with the error 
-`access_denied: The user has denied access to the scope requested by the client application.`.
-Unless I am doing something wrong, this is caused by an issue on Microsoft's side. I recommend copying
-the OAuth url into a private browser in order to log in.
-
 # Safety and Security
 
 I like to think of DevAuth as safe and somewhat secure. Yes, Mojang account passwords are
-stored in plain text, however they will soon be deprecated so I decided investing time and effort
-into encrypting them would be silly. The Microsoft account tokens stored in `microsoft_accounts.json`
+stored in plain text, however they ~~will soon be~~ are now deprecated, so I decided investing time and effort
+into encrypting them would be silly. The Microsoft account tokens stored locally in `microsoft_accounts.json`
 only provide limited access to your account and can be revoked by removing the DevAuth app [here][manageConsent].
 If you don't think this is secure enough, make an issue or pull request.
 
