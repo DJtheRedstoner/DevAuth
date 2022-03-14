@@ -32,33 +32,6 @@ public class Util {
         return System.currentTimeMillis() / 1000;
     }
 
-    // https://stackoverflow.com/questions/61860104/converting-p1363-format-to-asn-1-der-format-using-java
-    public static byte[] decodeSignature(byte[] der) {
-        int n = 32;
-
-        if (der[0] != 0x30) throw new RuntimeException();
-        int idx = der[1] == (byte) 0x81 ? 3 : 2; // the 0x81 case only occurs for curve over 488 bits
-        if (der[idx] != 2) throw new RuntimeException();
-        BigInteger r = new BigInteger(1, Arrays.copyOfRange(der, idx + 2, idx + 2 + der[idx + 1]));
-        idx += der[idx + 1] + 2;
-        if (der[idx] != 2) throw new RuntimeException();
-        BigInteger s = new BigInteger(1, Arrays.copyOfRange(der, idx + 2, idx + 2 + der[idx + 1]));
-        if (idx + der[idx + 1] + 2 != der.length) throw new RuntimeException();
-        // common output
-        byte[] out = new byte[2 * n];
-        toFixed(r, out, 0, n);
-        toFixed(s, out, n, n);
-
-        return out;
-    }
-
-    public static void toFixed(BigInteger x, byte[] a, int off, int len) {
-        byte[] t = x.toByteArray();
-        if (t.length == len + 1 && t[0] == 0) System.arraycopy(t, 1, a, off, len);
-        else if (t.length <= len) System.arraycopy(t, 0, a, off + len - t.length, t.length);
-        else throw new RuntimeException();
-    }
-
     public static Map<String, String> stringMap(String... entries) {
         if (entries.length % 2 != 0) throw new IllegalArgumentException("Number of entries must be even");
 
