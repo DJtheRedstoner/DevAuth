@@ -38,6 +38,10 @@ dependencies {
 tasks {
     jar {
         archiveClassifier.set("thin")
+
+        manifest.attributes(mapOf(
+            "FMLCorePlugin" to "me.djtheredstoner.devauth.forge.legacy.DevAuthLoadingPlugin"
+        ))
     }
     shadowJar {
         archiveClassifier.set("fat")

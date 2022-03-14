@@ -38,24 +38,10 @@ tasks {
         filesMatching("META-INF/mods.toml") {
             expand("version" to project.version)
         }
-
-        /*from(rootProject.file("LICENSE")) {
-            rename { "LICENSE_DevAuth.txt" }
-            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        }
-
-        from(rootProject.file("branding/logo128x.png")) {
-            rename { "assets/devauth/logo.png" }
-            duplicatesStrategy = DuplicatesStrategy.EXCLUDE
-        }*/
     }
 
     jar {
         archiveClassifier.set("thin")
-
-        manifest.attributes(mapOf(
-            "FMLCorePlugin" to "me.djtheredstoner.devauth.forge.legacy.DevAuthLoadingPlugin"
-        ))
     }
     shadowJar {
         archiveClassifier.set("fat")
