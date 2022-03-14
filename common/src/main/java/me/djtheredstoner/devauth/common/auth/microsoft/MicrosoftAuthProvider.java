@@ -2,6 +2,7 @@ package me.djtheredstoner.devauth.common.auth.microsoft;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonPrimitive;
 import me.djtheredstoner.devauth.common.DevAuth;
 import me.djtheredstoner.devauth.common.auth.IAuthProvider;
 import me.djtheredstoner.devauth.common.auth.SessionData;
@@ -128,7 +129,7 @@ public class MicrosoftAuthProvider implements IAuthProvider {
         object.add("Properties", properties);
         properties.addProperty("SandboxId", "RETAIL");
         JsonArray userTokens = new JsonArray();
-        userTokens.add(xblToken.getToken());
+        userTokens.add(new JsonPrimitive(xblToken.getToken()));
         properties.add("UserTokens", userTokens);
 
         object.addProperty("RelyingParty", "rp://api.minecraftservices.com/");

@@ -32,7 +32,6 @@ dependencies {
     shade(project(":common"))
     shade("com.electronwill.night-config:core:3.6.5")
     shade("com.electronwill.night-config:toml:3.6.5")
-    shade("com.google.code.gson:gson:2.4")
 }
 
 tasks {
@@ -46,7 +45,6 @@ tasks {
     shadowJar {
         archiveClassifier.set("fat")
         configurations = listOf(shade)
-        relocate("com.google.gson", "me.djtheredstoner.devauth.gson")
     }
     remapJar {
         input.set(shadowJar.get().archiveFile)
