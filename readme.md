@@ -1,5 +1,7 @@
 # DevAuth
 
+![WakaTime badge](https://wakatime.com/badge/user/a7885461-d6b5-4541-b841-a07642af2cfd/project/d488cdfd-0654-421b-abcb-7478b4256185.svg)
+
 Safely authenticate Microsoft and Mojang accounts in development environments.
 
 # Minecraft Version Support
@@ -12,14 +14,43 @@ Safely authenticate Microsoft and Mojang accounts in development environments.
 
 # Usage
 
+DevAuth can be used either by placing a jar in your mods folder or addding a
+maven depdendency. Details about the two methods follow.
+
+## Jar
+
 Download a DevAuth jar from the [releases](https://github.com/DJtheRedstoner/DevAuth/releases),
-place it in your mods folder and configure it uses the configuration section below.
+place it in your mods folder and configure it using the configuration section below.
+
+## Maven dependency
+
+Add the DevAuth repository
+```gradle
+repositories {
+    maven { url = "https://pkgs.dev.azure.com/djtheredstoner/DevAuth/_packaging/public/maven/v1" }
+}
+```
+
+Add the devauth dependency
+```kt
+dependencies {
+    // moduleName is based on your mod loader and minecraft version, see the table above
+    // version is the DevAuth version you are adding, check releases on GitHub or the badge below
+    // With loom (including arch-loom and essential loom), use the modRuntimeOnly configuration
+    // With ForgeGradle 5, use the runtimeOnly configuration
+    // With ForgeGradle 2, use the implementation configuration as runtimeOnly appears to be broken
+    modRuntimeOnly("me.djtheredstoner:DevAuth-${moduleName}:${version}")
+}
+```
+[![DevAuth badge](https://img.shields.io/maven-metadata/v?label=DevAuth&metadataUrl=https%3A%2F%2Fpkgs.dev.azure.com%2Fdjtheredstoner%2FDevAuth%2F_packaging%2Fpublic%2Fmaven%2Fv1%2Fme%2Fdjtheredstoner%2FDevAuth-common%2Fmaven-metadata.xml)][azurePackages]
+
+You can now enable and configure DevAuth. See the section below for details on how to do this.
 
 # Configuration
 
 DevAuth is configured through JVM properties and a configuration file.
 JVM Properties can be by adding `-D<propertyName>=<value>` to your JVM arguments
-or by using [`System.setProperty`][setProperty] before DevAuth initialized 
+or by using [`System.setProperty`][setProperty] before DevAuth is initialized 
 (fabric `preLaunch` entrypoint for example).
 
 ## JVM Properties:
@@ -78,5 +109,9 @@ into encrypting them would be silly. The Microsoft account tokens stored locally
 only provide limited access to your account and can be revoked by removing the DevAuth app [here][manageConsent].
 If you don't think this is secure enough, make an issue or pull request.
 
+# Discord
+[<img src="https://inv.wtf/widget/djl" width="500" alt="Discord Widget"/>](https://inv.wtf/djl)
+
 [setProperty]: https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/lang/System.html#setProperty(java.lang.String,java.lang.String)
 [manageConsent]: https://account.live.com/consent/Manage
+[azurePackages]: https://dev.azure.com/djtheredstoner/DevAuth/_artifacts/feed/public
