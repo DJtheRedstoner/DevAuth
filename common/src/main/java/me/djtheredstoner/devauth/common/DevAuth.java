@@ -9,7 +9,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
-public abstract class DevAuth {
+public class DevAuth {
 
     private static final Set<String> authOptions =
         new HashSet<>(Arrays.asList("--accessToken", "--uuid", "--username", "--userType", "--userProperties"));
@@ -18,12 +18,10 @@ public abstract class DevAuth {
     private final Logger logger;
     private final DevAuthConfig config = DevAuthConfig.load();
 
-    protected DevAuth() {
+    public DevAuth() {
         enabled = Properties.ENABLED.getBooleanValue();
         logger = LogManager.getLogger("DevAuth");
     }
-
-    protected abstract Environment getEnvironment();
 
     public String[] processArguments(String[] args) {
         if (!isEnabled()) {
