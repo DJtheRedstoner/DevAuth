@@ -2,6 +2,7 @@ import org.gradle.jvm.tasks.Jar
 
 plugins {
     id("com.github.johnrengelman.shadow") version "7.0.0" apply false
+    id("java-library")
     id("build-logic")
 }
 
@@ -29,5 +30,10 @@ allprojects {
 
 subprojects {
     apply(plugin = "java-library")
+    apply(plugin = "maven-publish")
     apply(plugin = "build-logic")
+
+    java {
+        withSourcesJar()
+    }
 }

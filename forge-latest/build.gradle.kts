@@ -16,17 +16,19 @@ loom {
     forge {
         pack200Provider.set(Pack200Adapter())
     }
+    setupRemappedVariants.set(false)
 }
 
 val shade: Configuration by configurations.creating {
     isTransitive = false
 }
-configurations.implementation.get().extendsFrom(shade)
 
 dependencies {
     minecraft("com.mojang:minecraft:1.18.2")
     mappings(loom.officialMojangMappings())
     forge("net.minecraftforge:forge:1.18.2-40.0.13")
+
+    api(project(":common"))
 
     shade(project(":common"))
 }

@@ -17,17 +17,19 @@ loom {
     forge {
         pack200Provider.set(Pack200Adapter())
     }
+    setupRemappedVariants.set(false)
 }
 
 val shade: Configuration by configurations.creating {
     isTransitive = false
 }
-configurations.implementation.get().extendsFrom(shade)
 
 dependencies {
     minecraft("com.mojang:minecraft:1.12.2")
     mappings("de.oceanlabs.mcp:mcp_stable:39-1.12")
     forge("net.minecraftforge:forge:1.12.2-14.23.0.2486")
+
+    api(project(":common"))
 
     shade(project(":common"))
     shade("com.electronwill.night-config:core:3.6.5")

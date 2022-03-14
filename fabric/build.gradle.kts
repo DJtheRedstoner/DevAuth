@@ -13,6 +13,7 @@ loom {
     mixin {
         add(sourceSets.main.get(), "mixins.devauth.refmap.json")
     }
+    setupRemappedVariants.set(false)
 }
 
 dependencies {
@@ -32,14 +33,6 @@ tasks.processResources {
 
     filesMatching("fabric.mod.json") {
         expand("version" to project.version)
-    }
-
-    from(rootProject.file("LICENSE")) {
-        rename { "LICENSE_DevAuth.txt" }
-    }
-
-    from(rootProject.file("branding/logo128x.png")) {
-        rename { "assets/devauth/logo.png" }
     }
 }
 
