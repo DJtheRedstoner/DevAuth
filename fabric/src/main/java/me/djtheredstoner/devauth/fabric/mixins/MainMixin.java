@@ -9,7 +9,7 @@ import org.spongepowered.asm.mixin.injection.ModifyVariable;
 @Mixin(Main.class)
 public class MainMixin {
 
-    @ModifyVariable(method = "main", at = @At("HEAD"), argsOnly = true)
+    @ModifyVariable(method = "main", at = @At("HEAD"), argsOnly = true, remap = false)
     private static String[] modifyArgs(String[] args) {
         return FabricBootstrap.getDevAuth().processArguments(args);
     }
