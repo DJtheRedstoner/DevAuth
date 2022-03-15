@@ -1,3 +1,4 @@
+import me.djtheredstoner.devauth.build.fixRemap
 import org.gradle.jvm.tasks.Jar
 
 plugins {
@@ -37,3 +38,5 @@ subprojects {
         withSourcesJar()
     }
 }
+
+fixRemap()
