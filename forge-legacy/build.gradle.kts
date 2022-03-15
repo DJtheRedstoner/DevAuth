@@ -2,8 +2,8 @@ import dev.architectury.pack200.java.Pack200Adapter
 import me.djtheredstoner.devauth.build.configureMcProject
 
 plugins {
-    id("gg.essential.loom") version "0.10.0.1"
-    id("dev.architectury.architectury-pack200") version "0.1.3"
+    id("gg.essential.loom")
+    id("dev.architectury.architectury-pack200")
     id("com.github.johnrengelman.shadow")
 }
 

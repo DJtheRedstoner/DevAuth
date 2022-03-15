@@ -1,7 +1,7 @@
 import me.djtheredstoner.devauth.build.configureMcProject
 
 plugins {
-    id("gg.essential.loom") version "0.10.0.1"
+    id("gg.essential.loom")
 }
 
 loom {
