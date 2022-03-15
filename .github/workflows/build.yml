@@ -29,8 +29,8 @@ jobs:
             ${{ runner.os }}-gradle-
 
       - run: |
-        ./gradlew --no-daemon --stacktrace help
-        ./gradlew --no-daemon  --stacktrace build
+          ./gradlew --no-daemon --stacktrace help
+          ./gradlew --no-daemon  --stacktrace build
 
       - name: Get Short SHA
         id: sha
