@@ -10,7 +10,7 @@ plugins {
 
 allprojects {
     group = "me.djtheredstoner"
-    version = "1.0.0-beta.1"
+    version = "1.0.0-beta.2"
 
     repositories {
         mavenCentral()
