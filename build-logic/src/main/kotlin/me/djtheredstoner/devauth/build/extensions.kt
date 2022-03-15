@@ -81,7 +81,7 @@ fun Project.configurePublishing() {
     afterEvaluate {
         val jarTask = if (project.name == "forge-latest") "shadowJar" else "jar"
         configurations.all {
-            if (artifacts.removeIf { it.classifier == "thin" }) {
+            if (artifacts.removeIf { it.classifier == "thin" || it.classifier == "dev" }) {
                 project.artifacts.add(name, tasks.named(jarTask)) {
                     classifier = null
                 }
