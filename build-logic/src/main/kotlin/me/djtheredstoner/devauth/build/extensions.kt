@@ -89,7 +89,7 @@ fun Project.configurePublishing() {
 
             if (artifacts.removeIf { it.classifier == "sources-dev" }) {
                 project.artifacts.add(name, tasks.named("sourcesJar")) {
-                    classifier = "source"
+                    classifier = "sources"
                 }
             }
 
