@@ -103,11 +103,6 @@ fun Project.configurePublishing() {
 }
 
 fun Project.fixRemap() {
-//        subprojects.mapNotNull { it.tasks. }.reduce { t1, t2 ->
-//            t2.mustRunAfter(t1)
-//            t2
-//        }
-//    }
     gradle.projectsEvaluated {
         subprojects.mapNotNull { it.tasks.findByPath("remapJar") }.reduce { t1, t2 ->
             t2.mustRunAfter(t1)

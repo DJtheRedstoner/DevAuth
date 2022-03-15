@@ -42,6 +42,10 @@ dependencies {
     modRuntimeOnly("me.djtheredstoner:DevAuth-${moduleName}:${version}")
 }
 ```
+**Due to a bug in `gg.essential.loom`, DevAuth `forge-legacy` will not work by default, and
+you will have to add the coremod manually to make it work: 
+`-Dfml.coreMods.load=me.djtheredstoner.devauth.forge.legacy.DevAuthLoadingPlugin`.**
+
 [![DevAuth badge](https://img.shields.io/maven-metadata/v?label=DevAuth&metadataUrl=https%3A%2F%2Fpkgs.dev.azure.com%2Fdjtheredstoner%2FDevAuth%2F_packaging%2Fpublic%2Fmaven%2Fv1%2Fme%2Fdjtheredstoner%2FDevAuth-common%2Fmaven-metadata.xml)][azurePackages]
 
 You can now enable and configure DevAuth. See the section below for details on how to do this.
