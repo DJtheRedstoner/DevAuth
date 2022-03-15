@@ -36,7 +36,8 @@ Add the devauth dependency
 dependencies {
     // moduleName is based on your mod loader and minecraft version, see the table above
     // version is the DevAuth version you are adding, check releases on GitHub or the badge below
-    // With loom (including arch-loom and essential loom), use the modRuntimeOnly configuration
+    // With loom use the modRuntimeOnly configuration
+    // With archloom and the forge-legacy module use the runtimeOnly configuration to avoid warnings
     // With ForgeGradle 5, use the runtimeOnly configuration
     // With ForgeGradle 2, use the implementation configuration as runtimeOnly appears to be broken
     modRuntimeOnly("me.djtheredstoner:DevAuth-${moduleName}:${version}")
@@ -87,6 +88,7 @@ username = "example@example.com"
 password = "hunter12"
 
 # a microsoft account
+# note that setting username and password IS NOT required and does nothing
 [accounts.alt]
 type = "microsoft"
 ```
@@ -101,7 +103,7 @@ When logging in with a microsoft account for the first time, you will be given a
 link to open in a browser to complete OAuth, after that the token will be stored
 in a file called `microsoft_accounts.json` in your config directory. Future logins
 will use and refresh the stored tokens as necessary. You will be prompted to go through
-OAuth again once your refresh token expires (my research leads me to think it should last 90 days)
+OAuth again once your refresh token expires (my research leads me to believe it should last 90 days)
 or is revoked.
 
 # Safety and Security
