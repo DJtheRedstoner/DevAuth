@@ -43,8 +43,8 @@ dependencies {
     modRuntimeOnly("me.djtheredstoner:DevAuth-${moduleName}:${version}")
 }
 ```
-**Due to a bug in `gg.essential.loom`, DevAuth `forge-legacy` requires `gg.essential.loom`
-version `0.10.0.2`**
+**If you use `gg.essential.loom` and the `forge-legacy` module, you must use version
+`0.10.0.2` or newer of `gg.essential.loom`**
 
 [![DevAuth badge](https://img.shields.io/maven-metadata/v?label=DevAuth&metadataUrl=https%3A%2F%2Fpkgs.dev.azure.com%2Fdjtheredstoner%2FDevAuth%2F_packaging%2Fpublic%2Fmaven%2Fv1%2Fme%2Fdjtheredstoner%2FDevAuth-common%2Fmaven-metadata.xml)][azurePackages]
 
