@@ -16,6 +16,7 @@ import me.djtheredstoner.devauth.common.config.Account;
 import me.djtheredstoner.devauth.common.util.Util;
 import me.djtheredstoner.devauth.common.util.request.Http;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.time.DurationFormatUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.util.EntityUtils;
@@ -24,6 +25,8 @@ import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.nio.charset.StandardCharsets;
+import java.time.*;
+import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -91,6 +94,13 @@ public class MicrosoftAuthProvider implements IAuthProvider {
             } else {
                 token = supplier.get();
             }
+
+            OffsetDateTime expiry = OffsetDateTime.ofInstant(Instant.ofEpochSecond(token.getExpiry()), ZoneOffset.UTC);
+            Instant now = Instant.now();
+            Duration duration = Duration.between(now, expiry);
+            String formattedExpiry = DateTimeFormatter.ISO_DATE_TIME.format(expiry);
+            String formattedDuration = DurationFormatUtils.formatDuration(duration.toMillis(), "dd:HH:mm:ss");
+            logger.info("Fetched token " + tokenKey.getName() + " (Expiry: " + formattedExpiry + " or in " + formattedDuration + ")");
             tokenStore.put(tokenKey, token);
         }
         return token;
