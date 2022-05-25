@@ -15,7 +15,7 @@ Safely authenticate Microsoft and Mojang accounts in development environments.
 # Usage
 
 DevAuth can be used either by placing a jar in your mods folder or addding a
-maven depdendency. Details about the two methods follow.
+maven dependency. Details about the two methods follow.
 
 ## Jar
 
@@ -31,7 +31,7 @@ repositories {
 }
 ```
 
-Add the devauth dependency
+Add the DevAuth dependency
 ```kt
 dependencies {
     // moduleName is based on your mod loader and minecraft version, see the table above
@@ -75,7 +75,7 @@ The configuration file is called `config.toml` and is located in your DevAuth co
 folder (defaults to `.devauth` in home directory, `C:\Users\<user>\.devauth` for Windows users).
 
 ```toml
-# chose if devauth should be on by default in new projects
+# chose if DevAuth should be on by default in new projects
 defaultEnabled = true
 
 # choose which account to use when devauth.account property is not specified
