@@ -4,6 +4,7 @@ import me.djtheredstoner.devauth.common.auth.IAuthProvider;
 import me.djtheredstoner.devauth.common.auth.SessionData;
 import me.djtheredstoner.devauth.common.config.Account;
 import me.djtheredstoner.devauth.common.config.DevAuthConfig;
+import me.djtheredstoner.devauth.common.util.Levenshtein;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,6 +25,8 @@ public class DevAuth {
     }
 
     public String[] processArguments(String[] args) {
+        checkProperties();
+
         DevAuthConfig maybeConfig = DevAuthConfig.load(false);
         if (!isEnabled(maybeConfig.getDefaultEnabled())) {
             logger.info("DevAuth disabled, not logging in!");
@@ -101,6 +104,18 @@ public class DevAuth {
             joiner.add(account.getName());
         }
         return joiner.toString();
+    }
+
+    private void checkProperties() {
+        for (Properties property : Properties.values()) {
+            for (Map.Entry<Object, Object> entry : System.getProperties().entrySet()) {
+                String key = (String)entry.getKey();
+                int distance = Levenshtein.distance(property.getFullKey(), key);
+                if (distance > 0 && distance < 4) {
+                    logger.info("Possibly misspelled property {}, did you mean {}?", key, property.getFullKey());
+                }
+            }
+        }
     }
 
 }
