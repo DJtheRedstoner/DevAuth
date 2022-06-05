@@ -1,7 +1,10 @@
 plugins {
     kotlin("jvm") version("1.5.31")
-    id("java-gradle-plugin")
     `kotlin-dsl`
+}
+
+java {
+    toolchain.languageVersion.set(JavaLanguageVersion.of(8))
 }
 
 repositories {
@@ -10,13 +13,4 @@ repositories {
 
 dependencies {
     gradleApi()
-}
-
-gradlePlugin {
-    plugins {
-        create("build-logic") {
-            id = "build-logic"
-            implementationClass = "me.djtheredstoner.devauth.build.BuildLogic"
-        }
-    }
 }
