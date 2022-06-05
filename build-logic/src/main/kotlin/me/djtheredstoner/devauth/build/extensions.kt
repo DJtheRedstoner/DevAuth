@@ -35,7 +35,13 @@ fun Project.configureResources() {
         }
 
         from(rootProject.file("branding/logo128x.png")) {
-            rename { "assets/devauth/logo.png" }
+            rename {
+                if (project.name == "forge-latest") {
+                    "logo.png"
+                } else {
+                    "assets/devauth/logo.png"
+                }
+            }
         }
 
         duplicatesStrategy = DuplicatesStrategy.WARN
