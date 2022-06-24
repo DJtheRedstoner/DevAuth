@@ -76,11 +76,11 @@ folder.
 
 ### Default config folder locations
 
-|   OS    | Default config directory                                        |
-|:-------:|-----------------------------------------------------------------|
-| Windows | `C:\Users\<user>\.devauth`                                      |
-|  MacOS  | `/Users/<user>/.devauth`                                        |
-|  Linux  | `$XDG_CONFIG_HOME/.devauth`, defaulting to `~/.config/.devauth` |
+|   OS    | Default config directory                                      |
+|:-------:|---------------------------------------------------------------|
+| Windows | `C:\Users\<user>\.devauth`                                    |
+|  MacOS  | `/Users/<user>/.devauth`                                      |
+|  Linux  | `$XDG_CONFIG_HOME/devauth`, defaulting to `~/.config/devauth` |
 
 ### Config file format
 
