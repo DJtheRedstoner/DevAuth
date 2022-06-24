@@ -2,8 +2,6 @@ import me.djtheredstoner.devauth.build.fixRemap
 import org.gradle.jvm.tasks.Jar
 
 plugins {
-    id("com.github.johnrengelman.shadow") version "7.0.0" apply false
-    id("gg.essential.loom") version "0.10.0.2" apply false
     id("java-library")
     id("build-logic")
 }

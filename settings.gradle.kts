@@ -1,6 +1,7 @@
 rootProject.name = "DevAuth"
 
 pluginManagement {
+    includeBuild("build-logic")
     repositories {
         mavenCentral()
         gradlePluginPortal()
@@ -9,9 +10,13 @@ pluginManagement {
         maven(url = "https://maven.architectury.dev/")
         maven(url = "https://maven.minecraftforge.net/")
     }
+    plugins {
+        id("com.github.johnrengelman.shadow") version "7.0.0"
+        id("gg.essential.loom") version "0.10.0.3"
+        id("dev.architectury.architectury-pack200") version "0.1.3"
+        id("io.github.juuxel.loom-quiltflower") version "1.7.3"
+    }
 }
-
-includeBuild("build-logic")
 
 include("common")
 

@@ -3,6 +3,7 @@ import me.djtheredstoner.devauth.build.configureMcProject
 
 plugins {
     id("gg.essential.loom")
+    id("io.github.juuxel.loom-quiltflower")
     id("dev.architectury.architectury-pack200")
     id("com.github.johnrengelman.shadow")
 }
