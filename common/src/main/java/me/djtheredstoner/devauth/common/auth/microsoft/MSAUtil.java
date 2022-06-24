@@ -1,18 +1,9 @@
 package me.djtheredstoner.devauth.common.auth.microsoft;
 
-import com.google.gson.JsonElement;
-import com.google.gson.JsonParser;
 import me.djtheredstoner.devauth.common.auth.microsoft.token.Token;
-import org.apache.http.HttpResponse;
 import org.apache.http.NameValuePair;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.utils.URLEncodedUtils;
-import org.apache.http.impl.client.HttpClients;
 import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.util.EntityUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;

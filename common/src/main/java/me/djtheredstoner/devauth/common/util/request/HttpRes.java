@@ -3,7 +3,6 @@ package me.djtheredstoner.devauth.common.util.request;
 import org.apache.http.HttpResponse;
 
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 public class HttpRes<T> {
 

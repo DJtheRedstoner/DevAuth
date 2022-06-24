@@ -11,8 +11,6 @@ import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 
 import java.io.File;
-import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.LinkedHashMap;
 import java.util.Map;
 

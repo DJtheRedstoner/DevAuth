@@ -1,13 +1,10 @@
 package me.djtheredstoner.devauth.forge.legacy;
 
 import net.minecraft.launchwrapper.IClassTransformer;
-import org.apache.commons.io.FileUtils;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.*;
-
-import java.io.File;
 
 public class ClassTransformer implements IClassTransformer {
     @Override
