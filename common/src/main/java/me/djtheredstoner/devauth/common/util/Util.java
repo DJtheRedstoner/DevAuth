@@ -23,7 +23,18 @@ public class Util {
         .build();
 
     public static File getDefaultConfigDir() {
-        return new File(System.getProperty("user.home"), ".devauth");
+        return new File(getSystemConfigDir(), ".devauth");
+    }
+
+    public static File getSystemConfigDir() {
+        String osName = System.getProperty("os.name");
+        if (osName.startsWith("Linux") || osName.startsWith("FreeBSD") || osName.startsWith("SunOS") || osName.startsWith("Unix")) {
+            String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
+            if (xdgConfigHome != null) return new File(xdgConfigHome);
+            return new File(System.getProperty("user.home"), ".config");
+        } else {
+            return new File(System.getProperty("user.home"));
+        }
     }
 
     public static long secondsSinceEpoch() {

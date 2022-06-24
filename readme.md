@@ -72,7 +72,17 @@ until DevAuth has been enabled once. Then you can set the `defaultEnabled` confi
 active by default in every project.**
 
 The configuration file is called `config.toml` and is located in your DevAuth config
-folder (defaults to `.devauth` in home directory, `C:\Users\<user>\.devauth` for Windows users).
+folder.
+
+### Default config folder locations
+
+|   OS    | Default config directory                                        |
+|:-------:|-----------------------------------------------------------------|
+| Windows | `C:\Users\<user>\.devauth`                                      |
+|  MacOS  | `/Users/<user>/.devauth`                                        |
+|  Linux  | `$XDG_CONFIG_HOME/.devauth`, defaulting to `~/.config/.devauth` |
+
+### Config file format
 
 ```toml
 # chose if DevAuth should be on by default in new projects
