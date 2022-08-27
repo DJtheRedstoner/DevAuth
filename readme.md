@@ -8,9 +8,9 @@ Safely authenticate Microsoft and Mojang accounts in development environments.
 
 | Versions             | Module         |  Supported   |
 |----------------------|----------------|:------------:|
-| 1.14 - 1.18.2 fabric | `fabric`       |      ✅       |
+| 1.14 - 1.19.2 fabric | `fabric`       |      ✅       |
 | 1.8.9 - 1.12.2 forge | `forge-legacy` |      ✅       |
-| 1.14 - 1.18.2 forge  | `forge-latest` |      ✅       |
+| 1.14 - 1.19.2 forge  | `forge-latest` |      ✅       |
 
 # Usage
 
