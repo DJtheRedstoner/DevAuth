@@ -28,7 +28,7 @@ val shade: Configuration by configurations.creating {
 dependencies {
     minecraft("com.mojang:minecraft:1.12.2")
     mappings("de.oceanlabs.mcp:mcp_stable:39-1.12")
-    forge("net.minecraftforge:forge:1.12.2-14.23.5.2860")
+    forge("net.minecraftforge:forge:1.12.2-14.23.0.2486")
 
     api(project(":common"))
 
