@@ -1,0 +1,8 @@
+{
+  "minVersion": "0.8",
+  "compatibilityLevel": "JAVA_8",
+  "package": "me.djtheredstoner.devauth.fabric.mixins",
+  "client": [
+    "MainMixin"
+  ]
+}

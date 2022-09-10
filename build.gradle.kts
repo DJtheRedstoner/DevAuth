@@ -12,6 +12,7 @@ allprojects {
 
     repositories {
         mavenCentral()
+        maven("https://maven.legacyfabric.net/")
     }
 
     tasks.withType<JavaCompile> {
