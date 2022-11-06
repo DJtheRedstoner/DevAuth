@@ -14,7 +14,7 @@ Safely authenticate Microsoft and Mojang accounts in development environments.
 
 # Usage
 
-DevAuth can be used either by placing a jar in your mods folder or addding a
+DevAuth can be used either by placing a jar in your mods folder or adding a
 maven dependency. Details about the two methods follow.
 
 ## Jar
