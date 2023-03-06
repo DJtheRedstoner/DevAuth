@@ -8,9 +8,12 @@ Safely authenticate Microsoft and Mojang accounts in development environments.
 
 | Versions             | Module         |  Supported   |
 |----------------------|----------------|:------------:|
-| 1.14 - 1.18.2 fabric | `fabric`       |      ✅       |
+| 1.14 - 1.19.3 fabric | `fabric`       |      ✅       |
 | 1.8.9 - 1.12.2 forge | `forge-legacy` |      ✅       |
-| 1.14 - 1.18.2 forge  | `forge-latest` |      ✅       |
+| 1.14 - 1.19.3 forge   | `forge-latest` |      ✅       |
+
+**Note:** If a version isn't listed above as supported, just try it.
+Additionally, the fabric module may work on other fabric-based loaders (such as legacy-fabric).
 
 # Usage
 
@@ -32,10 +35,13 @@ repositories {
 ```
 
 Add the DevAuth dependency
+
+[![DevAuth badge](https://img.shields.io/maven-metadata/v?label=DevAuth&metadataUrl=https%3A%2F%2Fpkgs.dev.azure.com%2Fdjtheredstoner%2FDevAuth%2F_packaging%2Fpublic%2Fmaven%2Fv1%2Fme%2Fdjtheredstoner%2FDevAuth-common%2Fmaven-metadata.xml)][azurePackages]
+
 ```kt
 dependencies {
     // moduleName is based on your mod loader and minecraft version, see the table above
-    // version is the DevAuth version you are adding, check releases on GitHub or the badge below
+    // version is the DevAuth version you are adding, check releases on GitHub or the badge above
     // With loom use the modRuntimeOnly configuration
     // With archloom and the forge-legacy module use the runtimeOnly configuration to avoid warnings
     // With ForgeGradle 5, use the runtimeOnly configuration
@@ -45,8 +51,6 @@ dependencies {
 ```
 **If you use `gg.essential.loom` and the `forge-legacy` module, you must use version
 `0.10.0.2` or newer of `gg.essential.loom`**
-
-[![DevAuth badge](https://img.shields.io/maven-metadata/v?label=DevAuth&metadataUrl=https%3A%2F%2Fpkgs.dev.azure.com%2Fdjtheredstoner%2FDevAuth%2F_packaging%2Fpublic%2Fmaven%2Fv1%2Fme%2Fdjtheredstoner%2FDevAuth-common%2Fmaven-metadata.xml)][azurePackages]
 
 You can now enable and configure DevAuth. See the section below for details on how to do this.
 
