@@ -59,14 +59,6 @@ fun Project.configurePublishing() {
                 artifactId = "DevAuth-${project.name}"
 
                 from(components.getByName("java"))
-
-                if (project.name == "forge-latest") {
-                    pom.withXml {
-                        (asNode()["dependencies"] as NodeList).forEach {
-                            (it as Node).parent().remove(it)
-                        }
-                    }
-                }
             }
         }
 
@@ -88,26 +80,11 @@ fun Project.configurePublishing() {
     }
 
     afterEvaluate {
-        val jarTask = if (project.name == "forge-latest") "shadowJar" else "jar"
-        configurations.all {
-            if (artifacts.removeIf { it.classifier == "thin" || it.classifier == "dev" }) {
-                project.artifacts.add(name, tasks.named(jarTask)) {
-                    classifier = null
-                }
+        if (project.name == "forge-legacy") {
+            configurations.all {
+                artifacts.removeIf { it.classifier != "" && it.classifier != "sources" }
             }
-
-            if (artifacts.removeIf { it.classifier == "sources-dev" }) {
-                project.artifacts.add(name, tasks.named("sourcesJar")) {
-                    classifier = "sources"
-                }
-            }
-
-            artifacts.removeIf { it.classifier == "fat" }
         }
-    }
-
-    tasks.withType<GenerateModuleMetadata> {
-        enabled = false
     }
 }
 

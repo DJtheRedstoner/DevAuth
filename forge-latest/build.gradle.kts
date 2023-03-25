@@ -1,11 +1,8 @@
-import dev.architectury.pack200.java.Pack200Adapter
 import me.djtheredstoner.devauth.build.configureMcProject
 
 plugins {
-    id("gg.essential.loom")
+    id("dev.architectury.loom") version "0.12.0-SNAPSHOT"
     id("io.github.juuxel.loom-quiltflower")
-    id("dev.architectury.architectury-pack200")
-    id("com.github.johnrengelman.shadow")
 }
 
 loom {
@@ -14,10 +11,6 @@ loom {
             ideConfigGenerated(true)
         }
     }
-    forge {
-        pack200Provider.set(Pack200Adapter())
-    }
-    setupRemappedVariants.set(false)
 }
 
 val shade: Configuration by configurations.creating {
@@ -44,14 +37,8 @@ tasks {
     }
 
     jar {
-        archiveClassifier.set("thin")
-    }
-    shadowJar {
-        archiveClassifier.set("fat")
-        configurations = listOf(shade)
-    }
-    remapJar {
-        input.set(shadowJar.get().archiveFile)
+        dependsOn(project(":common").tasks.named("jar"))
+        from(shade.files.map { zipTree(it) })
     }
 }
 
