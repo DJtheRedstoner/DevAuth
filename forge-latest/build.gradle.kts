@@ -22,7 +22,7 @@ dependencies {
     mappings(loom.officialMojangMappings())
     forge("net.minecraftforge:forge:1.18.2-40.0.13")
 
-    api(project(":common"))
+    compileOnly(project(":common"))
 
     shade(project(":common"))
 }
@@ -39,6 +39,10 @@ tasks {
     jar {
         dependsOn(project(":common").tasks.named("jar"))
         from(shade.files.map { zipTree(it) })
+    }
+
+    sourcesJar {
+        from(project(":common").sourceSets.main.get().allSource)
     }
 }
 
