@@ -4,11 +4,12 @@ import org.gradle.jvm.tasks.Jar
 plugins {
     id("java-library")
     id("build-logic")
+    id("gg.essential.loom") version "1.3.12" apply false
 }
 
 allprojects {
     group = "me.djtheredstoner"
-    version = "1.1.2"
+    version = "1.2.0"
 
     repositories {
         mavenCentral()

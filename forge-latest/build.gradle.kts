@@ -1,7 +1,7 @@
 import me.djtheredstoner.devauth.build.configureMcProject
 
 plugins {
-    id("dev.architectury.loom") version "0.12.0-SNAPSHOT"
+    id("gg.essential.loom")
     id("io.github.juuxel.loom-quiltflower")
 }
 

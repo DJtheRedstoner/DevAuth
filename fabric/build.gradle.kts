@@ -1,7 +1,7 @@
 import me.djtheredstoner.devauth.build.configureMcProject
 
 plugins {
-    id("fabric-loom") version "1.1-SNAPSHOT"
+    id("gg.essential.loom")
     id("io.github.juuxel.loom-quiltflower")
 }
 
@@ -19,7 +19,7 @@ loom {
 dependencies {
     minecraft("com.mojang:minecraft:1.18.2")
     mappings("net.fabricmc:yarn:1.18.2+build.2:v2")
-    modCompileOnly("net.fabricmc:fabric-loader:0.13.3")
+    modCompileOnly(localRuntime("net.fabricmc:fabric-loader:0.14.23")!!)
 
     api(project(":common"))
 
