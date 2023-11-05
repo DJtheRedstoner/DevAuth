@@ -23,7 +23,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class CodeOAuthProvider extends OAuthProvider {
 
-    private static final String REDIRECT_URI = "http://localhost:3000";
+    private static final String REDIRECT_URI = "http://127.0.0.1:3000";
     private static final String OAUTH_URL = "https://login.live.com/oauth20_authorize.srf";
     private static final String OAUTH_TOKEN_URL = "https://login.live.com/oauth20_token.srf";
 
@@ -68,7 +68,6 @@ public class CodeOAuthProvider extends OAuthProvider {
         params.putAll(extraParams);
 
         JsonObject res = new HttpBuilder<Map<String, String>, JsonObject>(OAUTH_TOKEN_URL)
-            .header("Origin", "http://localhost")
             .body(Http::urlEncodedBody, params)
             .responseHandler(Http::checkStatus)
             .execute()
