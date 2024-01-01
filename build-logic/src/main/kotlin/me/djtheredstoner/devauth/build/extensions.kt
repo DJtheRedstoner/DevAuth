@@ -22,9 +22,9 @@ fun Project.configureMcProject() {
 
 fun Project.configureCopyArtifacts() {
     val copyArtifacts = tasks.create( "copyArtifacts", Copy::class.java).apply {
-        dependsOn(tasks.getByName("remapJar"))
-        from((tasks.getByName("remapJar") as Jar).archiveFile)
-        into(rootProject.buildDir.resolve("distributions"))
+        val jarTask = tasks.findByName("remapJar") ?: tasks.findByPath("jar") ?: error("couldn't find jar task")
+        from((jarTask as Jar).archiveFile)
+        into(rootProject.layout.buildDirectory.dir("distributions"))
     }
     tasks.getByName("assemble").dependsOn(copyArtifacts)
 }
