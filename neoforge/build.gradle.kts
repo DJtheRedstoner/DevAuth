@@ -1,3 +1,4 @@
+import me.djtheredstoner.devauth.build.configureCopyArtifacts
 import me.djtheredstoner.devauth.build.configurePublishing
 import me.djtheredstoner.devauth.build.configureResources
 
@@ -49,4 +50,5 @@ tasks.processResources {
     }
 }
 
+configureCopyArtifacts()
 configurePublishing()
