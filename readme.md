@@ -10,7 +10,7 @@ Safely authenticate Microsoft and Mojang accounts in development environments.
 |----------------------|----------------|:---------:|
 | 1.14 - 1.20.4 Fabric | `fabric`       |     ✅     |
 | 1.8.9 - 1.12.2 Forge | `forge-legacy` |     ✅     |
-| 1.14 - 1.20.1 Forge  | `forge-latest` |     ✅     |
+| 1.14 - 1.20.4 Forge  | `forge-latest` |     ✅     |
 | 1.20.4 NeoForge      | `neoforge`     |     ✅     |
 
 **Note:** If a version isn't listed above as supported, just try it.
