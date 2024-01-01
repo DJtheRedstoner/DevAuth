@@ -6,18 +6,19 @@ Safely authenticate Microsoft and Mojang accounts in development environments.
 
 # Minecraft Version Support
 
-| Versions             | Module         |  Supported   |
-|----------------------|----------------|:------------:|
-| 1.14 - 1.19.3 fabric | `fabric`       |      ✅       |
-| 1.8.9 - 1.12.2 forge | `forge-legacy` |      ✅       |
-| 1.14 - 1.19.3 forge   | `forge-latest` |      ✅       |
+| Versions             | Module         | Supported |
+|----------------------|----------------|:---------:|
+| 1.14 - 1.20.4 Fabric | `fabric`       |     ✅     |
+| 1.8.9 - 1.12.2 Forge | `forge-legacy` |     ✅     |
+| 1.14 - 1.20.1 Forge  | `forge-latest` |     ✅     |
+| 1.20.4 NeoForge      | `neoforge`     |     ✅     |
 
 **Note:** If a version isn't listed above as supported, just try it.
 Additionally, the fabric module may work on other fabric-based loaders (such as legacy-fabric).
 
 # Usage
 
-DevAuth can be used either by placing a jar in your mods folder or addding a
+DevAuth can be used either by placing a jar in your mods folder or adding a
 maven dependency. Details about the two methods follow.
 
 ## Jar
@@ -44,7 +45,7 @@ dependencies {
     // version is the DevAuth version you are adding, check releases on GitHub or the badge above
     // With loom use the modRuntimeOnly configuration
     // With archloom and the forge-legacy module use the runtimeOnly configuration to avoid warnings
-    // With ForgeGradle 5, use the runtimeOnly configuration
+    // With ForgeGradle 5 or NeoGradle, use the runtimeOnly configuration
     // With ForgeGradle 2, use the implementation configuration as runtimeOnly appears to be broken
     modRuntimeOnly("me.djtheredstoner:DevAuth-${moduleName}:${version}")
 }

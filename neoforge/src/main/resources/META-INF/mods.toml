@@ -1,0 +1,11 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "MIT"
+
+[[mods]]
+modId = "devauth"
+version = "${version}"
+displayName = "DevAuth"
+authors = "DJtheRedstoner"
+description = "Safely authenticate Microsoft and Mojang accounts in development environments."
+logoFile = "assets/devauth/logo.png"
