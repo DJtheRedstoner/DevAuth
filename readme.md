@@ -64,11 +64,11 @@ or by using [`System.setProperty`][setProperty] before DevAuth is initialized
 
 ## JVM Properties:
 
-|       Property        | Description                    | Default                             |
-|:---------------------:|:-------------------------------|:------------------------------------|
-|   `devauth.enabled`   | Enables DevAuth                | `false`                             |
-|  `devauth.configDir`  | Selects the config directory   | `.devauth` folder in home directory |
-|   `devauth.account`   | Select the account to log into | none                                |
+|       Property        | Description                    | Default                                       |
+|:---------------------:|:-------------------------------|:----------------------------------------------|
+|   `devauth.enabled`   | Enables DevAuth                | `false`                                       |
+|  `devauth.configDir`  | Selects the config directory   | [See below](#default-config-folder-locations) |
+|   `devauth.account`   | Select the account to log into | none                                          |
 
 ## Configuration File:
 
