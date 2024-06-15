@@ -11,8 +11,7 @@ pluginManagement {
         maven(url = "https://maven.minecraftforge.net/")
     }
     plugins {
-        id("com.github.johnrengelman.shadow") version "7.0.0"
-        id("io.github.juuxel.loom-quiltflower") version "1.7.3"
+        id("io.github.goooler.shadow") version "8.1.7"
     }
 }
 

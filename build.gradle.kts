@@ -4,7 +4,7 @@ import org.gradle.jvm.tasks.Jar
 plugins {
     id("java-library")
     id("build-logic")
-    id("gg.essential.loom") version "1.3.12" apply false
+    id("gg.essential.loom") version "1.6.17" apply false
 }
 
 allprojects {

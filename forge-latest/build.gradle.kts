@@ -2,7 +2,6 @@ import me.djtheredstoner.devauth.build.configureMcProject
 
 plugins {
     id("gg.essential.loom")
-    id("io.github.juuxel.loom-quiltflower")
 }
 
 loom {
