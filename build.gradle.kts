@@ -27,6 +27,11 @@ allprojects {
     tasks.withType<Jar> {
         archiveBaseName.set("${rootProject.name}-${project.name}")
     }
+
+    tasks.withType<AbstractArchiveTask> {
+        isPreserveFileTimestamps = false
+        isReproducibleFileOrder = true
+    }
 }
 
 subprojects {
