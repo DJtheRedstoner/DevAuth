@@ -3,20 +3,20 @@
 # You can learn more about toml here: https://learnxinyminutes.com/docs/toml/
 
 # Uncomment this to make DevAuth active by default when added to a project
-# Devauth can be enabled for each project by setting devauth.enabled jvm property
+# Devauth can be enabled for each project by setting the devauth.enabled JVM property
 #defaultEnabled = true
 
 # Uncomment this to set a default account for all projects
-# The devauth.account jvm property can be used to set the account each project uses
+# The devauth.account JVM property can be used to set the account for each project
 #defaultAccount = "main"
 
-# An example mojang account
+# A Microsoft account
+# You do not need to specify your email or password in this config, since
+# OAuth2 is used for authentication.
 [accounts.main]
-type = "mojang"
-username = "example@example.com"
-password = "hunter12"
+type = "microsoft"
 
-# An example microsoft account
-# Note that you DO NOT need to put email and password for microsoft accounts
+# A second Microsoft account, which can be selected by setting defaultAccount above
+# or using the devauth.account JVM property
 [accounts.alt]
 type = "microsoft"
