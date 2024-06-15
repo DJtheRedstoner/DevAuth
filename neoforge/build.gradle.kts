@@ -45,7 +45,7 @@ tasks.sourcesJar {
 tasks.processResources {
     inputs.property("version", project.version)
 
-    filesMatching("META-INF/mods.toml") {
+    filesMatching("META-INF/*mods.toml") {
         expand("version" to project.version)
     }
 }
