@@ -4,7 +4,7 @@
   "version": "${version}",
 
   "name": "DevAuth",
-  "description": "Safely authenticate Microsoft and Mojang accounts in development environments.",
+  "description": "Safely authenticate Minecraft accounts in development environments.",
   "authors": [
     "DJtheRedstoner"
   ],
