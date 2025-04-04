@@ -24,7 +24,10 @@ public class Util {
 
     public static File getDefaultConfigDir() {
         String osName = System.getProperty("os.name");
-        if (osName.startsWith("Linux") || osName.startsWith("FreeBSD") || osName.startsWith("SunOS") || osName.startsWith("Unix")) {
+        if (osName.startsWith("Mac")) {
+            String applicationSupport = System.getProperty("user.home") + File.separator + "Library" + File.separator + "Application Support";
+            return new File(applicationSupport, "DevAuth");
+        } else if (osName.startsWith("Linux") || osName.startsWith("FreeBSD") || osName.startsWith("SunOS") || osName.startsWith("Unix")) {
             String xdgConfigHome = System.getenv("XDG_CONFIG_HOME");
             if (xdgConfigHome == null) xdgConfigHome = System.getProperty("user.home") + File.separator + ".config";
             return new File(xdgConfigHome, "devauth");
