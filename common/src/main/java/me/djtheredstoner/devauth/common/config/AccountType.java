@@ -4,7 +4,6 @@ import me.djtheredstoner.devauth.common.auth.IAuthProviderFactory;
 
 public enum AccountType {
 
-    MOJANG(IAuthProviderFactory.MOJANG),
     MICROSOFT(IAuthProviderFactory.MICROSOFT);
 
     private final IAuthProviderFactory authProvider;

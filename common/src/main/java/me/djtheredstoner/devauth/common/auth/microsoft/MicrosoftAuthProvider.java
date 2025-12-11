@@ -2,6 +2,7 @@ package me.djtheredstoner.devauth.common.auth.microsoft;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.google.gson.JsonPrimitive;
 import me.djtheredstoner.devauth.common.DevAuth;
 import me.djtheredstoner.devauth.common.auth.IAuthProvider;
@@ -13,17 +14,16 @@ import me.djtheredstoner.devauth.common.auth.microsoft.token.Token;
 import me.djtheredstoner.devauth.common.auth.microsoft.token.TokenKey;
 import me.djtheredstoner.devauth.common.auth.microsoft.token.XBLToken;
 import me.djtheredstoner.devauth.common.config.Account;
+import me.djtheredstoner.devauth.common.util.HttpUtil;
 import me.djtheredstoner.devauth.common.util.Util;
-import me.djtheredstoner.devauth.common.util.request.Http;
 import org.apache.commons.io.FileUtils;
-import org.apache.commons.lang3.time.DurationFormatUtils;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.util.EntityUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.io.File;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
@@ -48,10 +48,10 @@ import java.util.function.Supplier;
 public class MicrosoftAuthProvider implements IAuthProvider {
 
     private static final String SCOPES = "XboxLive.signin XboxLive.offline_access";
-    private static final String XBL_URL = "https://user.auth.xboxlive.com/user/authenticate";
-    private static final String XSTS_URL = "https://xsts.auth.xboxlive.com/xsts/authorize";
-    private static final String MINECRAFT_URL = "https://api.minecraftservices.com/authentication/login_with_xbox";
-    private static final String MINECRAFT_PROFILE_URL = "https://api.minecraftservices.com/minecraft/profile";
+    private static final URI XBL_URI = URI.create("https://user.auth.xboxlive.com/user/authenticate");
+    private static final URI XSTS_URI = URI.create("https://xsts.auth.xboxlive.com/xsts/authorize");
+    private static final URI MINECRAFT_URI = URI.create("https://api.minecraftservices.com/authentication/login_with_xbox");
+    private static final URI MINECRAFT_PROFILE_URI = URI.create("https://api.minecraftservices.com/minecraft/profile");
 
     private static final Logger logger = LogManager.getLogger("DevAuth/Microsoft");
 
@@ -84,10 +84,9 @@ public class MicrosoftAuthProvider implements IAuthProvider {
         Supplier<T> supplier = (Supplier<T>) tokenRegistry.get(tokenKey);
         T token = (T) tokenStore.get(tokenKey);
         if (token == null || token.isExpired()) {
-            logger.info("Fetching token " + tokenKey.getName());
-            if (token instanceof OAuthToken) {
+            logger.info("Fetching token {}", tokenKey.getName());
+            if (token instanceof OAuthToken oAuthToken) {
                 try {
-                    OAuthToken oAuthToken = (OAuthToken) token;
                     logger.info("Attempting to refresh OAuth token");
                     token = (T) oAuthProvider.refreshToken(oAuthToken);
                 } catch (Exception e) {
@@ -98,12 +97,16 @@ public class MicrosoftAuthProvider implements IAuthProvider {
                 token = supplier.get();
             }
 
-            OffsetDateTime expiry = OffsetDateTime.ofInstant(Instant.ofEpochSecond(token.getExpiry()), ZoneOffset.UTC);
-            Instant now = Instant.now();
-            Duration duration = Duration.between(now, expiry);
-            String formattedExpiry = DateTimeFormatter.ISO_DATE_TIME.format(expiry);
-            String formattedDuration = DurationFormatUtils.formatDuration(duration.toMillis(), "dd:HH:mm:ss");
-            logger.info("Fetched token " + tokenKey.getName() + " (Expiry: " + formattedExpiry + " or in " + formattedDuration + ")");
+            if(logger.isInfoEnabled()) {
+                OffsetDateTime expiry = OffsetDateTime.ofInstant(Instant.ofEpochSecond(token.getExpiry()), ZoneOffset.UTC);
+                Instant now = Instant.now();
+                Duration duration = Duration.between(now, expiry);
+                logger.info(
+                        "Fetched token {} (Expiry: {} or in {})",
+                        tokenKey.getName(),
+                        DateTimeFormatter.ISO_DATE_TIME.format(expiry),
+                        duration);
+            }
             tokenStore.put(tokenKey, token);
         }
         return token;
@@ -128,7 +131,7 @@ public class MicrosoftAuthProvider implements IAuthProvider {
         object.addProperty("RelyingParty", "http://auth.xboxlive.com");
         object.addProperty("TokenType", "JWT");
 
-        JsonObject res = Util.jsonPost(XBL_URL, object);
+        JsonObject res = HttpUtil.jsonPost(XBL_URI, object);
 
         return XBLToken.fromJson(res, true);
     }
@@ -148,7 +151,7 @@ public class MicrosoftAuthProvider implements IAuthProvider {
         object.addProperty("RelyingParty", "rp://api.minecraftservices.com/");
         object.addProperty("TokenType", "JWT");
 
-        JsonObject res = Util.jsonPost(XSTS_URL, object);
+        JsonObject res = HttpUtil.jsonPost(XSTS_URI, object);
 
         return XBLToken.fromJson(res, true);
     }
@@ -159,7 +162,7 @@ public class MicrosoftAuthProvider implements IAuthProvider {
         JsonObject object = new JsonObject();
         object.addProperty("identityToken", "XBL3.0 x=" + xstsToken.getUserHash() + ";" + xstsToken.getToken());
 
-        JsonObject res = Util.jsonPost(MINECRAFT_URL, object);
+        JsonObject res = HttpUtil.jsonPost(MINECRAFT_URI, object);
 
         return Token.fromJson(res);
     }
@@ -180,19 +183,21 @@ public class MicrosoftAuthProvider implements IAuthProvider {
     protected SessionData getMinecraftProfile() {
         Token mcSession = get(TokenKey.SESSION_TOKEN);
 
-        try {
-            HttpGet request = new HttpGet(MINECRAFT_PROFILE_URL);
-            request.setHeader("Authorization", "Bearer " + mcSession.getToken());
+        try(HttpClient httpClient = HttpUtil.newHttpClientBuilder().build()) {
 
-            HttpResponse response = Util.client.execute(request);
-            String body = EntityUtils.toString(response.getEntity());
+            HttpResponse<String> response = httpClient.send(
+                    HttpUtil.newHttpClientRequest(MINECRAFT_PROFILE_URI)
+                            .setHeader("Authorization", "Bearer " + mcSession.getToken())
+                            .GET()
+                            .build(),
+                    HttpResponse.BodyHandlers.ofString());
 
-            if (response.getStatusLine().getStatusCode() == 404) {
+            if (response.statusCode() == 404) {
                 throw new RuntimeException("404 received for minecraft profile, does the user own the game?");
             }
-            Http.checkStatus(response, body);
 
-            JsonObject profileObject = Util.parser.parse(body).getAsJsonObject();
+            String body = HttpUtil.checkStatus(response).body();
+            JsonObject profileObject = JsonParser.parseString(body).getAsJsonObject();
 
             return new SessionData(
                 mcSession.getToken(),
@@ -211,7 +216,7 @@ public class MicrosoftAuthProvider implements IAuthProvider {
 
         try {
             String json = FileUtils.readFileToString(accountsJson, StandardCharsets.UTF_8);
-            JsonObject parsed = Util.parser.parse(json).getAsJsonObject();
+            JsonObject parsed = JsonParser.parseString(json).getAsJsonObject();
 
             if (!parsed.has("version") || parsed.get("version").getAsInt() != 1) {
                 logger.info("microsoft_accounts.json has unknown version. Ignoring.");
@@ -224,7 +229,7 @@ public class MicrosoftAuthProvider implements IAuthProvider {
                 JsonObject accountData = parsed.get(account.getName()).getAsJsonObject();
                 for (TokenKey<?> tokenKey : tokenRegistry.keySet()) {
                     if (accountData.has(tokenKey.getName())) {
-                        Token token = Util.gson.fromJson(accountData.get(tokenKey.getName()), tokenKey.getClazz());
+                        Token token = Util.GSON.fromJson(accountData.get(tokenKey.getName()), tokenKey.getClazz());
                         tokenStore.put(tokenKey, token);
                     }
                 }
@@ -245,12 +250,12 @@ public class MicrosoftAuthProvider implements IAuthProvider {
             if (writeCurrentAccount) {
                 JsonObject accountData = new JsonObject();
                 for (Map.Entry<TokenKey<?>, Token> entry : tokenStore.entrySet()) {
-                    accountData.add(entry.getKey().getName(), Util.gson.toJsonTree(entry.getValue()));
+                    accountData.add(entry.getKey().getName(), Util.GSON.toJsonTree(entry.getValue()));
                 }
                 accountsData.add(account.getName(), accountData);
             }
 
-            FileUtils.writeStringToFile(accountsJson, Util.gson.toJson(accountsData), StandardCharsets.UTF_8);
+            FileUtils.writeStringToFile(accountsJson, Util.GSON.toJson(accountsData), StandardCharsets.UTF_8);
         } catch (Exception e) {
             logger.error("Failed to write microsoft_accounts.json", e);
         }

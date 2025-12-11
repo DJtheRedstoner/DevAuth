@@ -1,13 +1,10 @@
 package me.djtheredstoner.devauth.common.auth.microsoft.oauth;
 
-import com.google.gson.JsonObject;
 import com.sun.net.httpserver.HttpServer;
 import me.djtheredstoner.devauth.common.auth.microsoft.Constants;
-import me.djtheredstoner.devauth.common.auth.microsoft.MSAUtil;
 import me.djtheredstoner.devauth.common.auth.microsoft.token.OAuthToken;
+import me.djtheredstoner.devauth.common.util.HttpUtil;
 import me.djtheredstoner.devauth.common.util.Util;
-import me.djtheredstoner.devauth.common.util.request.Http;
-import me.djtheredstoner.devauth.common.util.request.HttpBuilder;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.Logger;
@@ -15,17 +12,22 @@ import org.apache.logging.log4j.Logger;
 import java.io.InputStream;
 import java.net.InetSocketAddress;
 import java.net.URI;
+import java.net.URLEncoder;
+import java.net.http.HttpRequest;
+import java.nio.charset.StandardCharsets;
 import java.security.SecureRandom;
 import java.util.Base64;
 import java.util.Map;
 import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class CodeOAuthProvider extends OAuthProvider {
 
     private static final String REDIRECT_URI = "http://127.0.0.1:3000";
     private static final String OAUTH_URL = "https://login.live.com/oauth20_authorize.srf";
-    private static final String OAUTH_TOKEN_URL = "https://login.live.com/oauth20_token.srf";
+    private static final URI OAUTH_TOKEN_URI = URI.create("https://login.live.com/oauth20_token.srf");
 
     public CodeOAuthProvider(Logger logger, String scopes) {
         super(logger, scopes);
@@ -54,7 +56,7 @@ public class CodeOAuthProvider extends OAuthProvider {
                 "refresh_token", token.getRefreshToken()
             ));
         } catch (Exception e) {
-            logger.error("Error refreshing OAuth token, trying to get new token!", e);
+            logger.error("Error refreshing OAuth token, trying to get new token", e);
             return getOAuthToken();
         }
     }
@@ -67,13 +69,17 @@ public class CodeOAuthProvider extends OAuthProvider {
         );
         params.putAll(extraParams);
 
-        JsonObject res = new HttpBuilder<Map<String, String>, JsonObject>(OAUTH_TOKEN_URL)
-            .body(Http::urlEncodedBody, params)
-            .responseHandler(Http::checkStatus)
-            .execute()
-            .into(Http::jsonResponse);
-
-        return OAuthToken.fromJson(res);
+        return OAuthToken.fromJson(HttpUtil.jsonPost(
+                OAUTH_TOKEN_URI,
+                HttpRequest.BodyPublishers.ofString(params.entrySet()
+                        .stream()
+                        .map(e -> Stream.of(e.getKey(), e.getValue())
+                                .map(s -> URLEncoder.encode(s, StandardCharsets.UTF_8))
+                                .collect(Collectors.joining("=")))
+                        .collect(Collectors.joining("&"))
+                ),
+                Map.of("Content-Type", "application/x-www-form-urlencoded")
+        ));
     }
 
     public String getAuthorizationCode(String codeVerifier) {
@@ -101,7 +107,7 @@ public class CodeOAuthProvider extends OAuthProvider {
                 req.getResponseBody().write(response);
                 req.getResponseBody().close();
 
-                Map<String, String> query = MSAUtil.parseQuery(req.getRequestURI().getRawQuery());
+                Map<String, String> query = HttpUtil.parseQuery(req.getRequestURI().getRawQuery());
 
                 if (query.containsKey("error")) {
                     future.completeExceptionally(
@@ -113,17 +119,21 @@ public class CodeOAuthProvider extends OAuthProvider {
             });
             server.start();
 
-            String queryString = MSAUtil.buildQuery(Util.stringMap(
-                "client_id", Constants.CLIENT_ID,
-                "response_type", "code",
-                "redirect_uri", REDIRECT_URI,
-                "scope", scopes,
-                "prompt", "select_account",
-                "code_challenge", Base64.getUrlEncoder().withoutPadding().encodeToString(DigestUtils.sha256(codeVerifier)),
-                "code_challenge_method", "S256"
-            ));
+            if(logger.isInfoEnabled()) {
+                String queryString = HttpUtil.buildQuery(Util.stringMap(
+                        "client_id", Constants.CLIENT_ID,
+                        "response_type", "code",
+                        "redirect_uri", REDIRECT_URI,
+                        "scope", scopes,
+                        "prompt", "select_account",
+                        "code_challenge", Base64.getUrlEncoder().withoutPadding().encodeToString(DigestUtils.sha256(codeVerifier)),
+                        "code_challenge_method", "S256"
+                ));
 
-            logger.info("OAuth URL, open this in a browser to complete authentication: " + OAUTH_URL + "?" + queryString);
+                logger.info("OAuth URL, open this in a browser to complete authentication: {}?{}",
+                        OAUTH_URL,
+                        queryString);
+            }
 
             return future.join();
         } catch (Exception e) {

@@ -2,13 +2,6 @@ package me.djtheredstoner.devauth.common.util;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import me.djtheredstoner.devauth.common.auth.microsoft.Constants;
-import me.djtheredstoner.devauth.common.util.request.Http;
-import me.djtheredstoner.devauth.common.util.request.HttpBuilder;
-import org.apache.http.client.HttpClient;
-import org.apache.http.impl.client.HttpClients;
 
 import java.io.File;
 import java.util.LinkedHashMap;
@@ -16,11 +9,7 @@ import java.util.Map;
 
 public class Util {
 
-    public static final Gson gson = new GsonBuilder().setPrettyPrinting().create();
-    public static final JsonParser parser = new JsonParser();
-    public static final HttpClient client = HttpClients.custom()
-        .setUserAgent(Constants.USER_AGENT)
-        .build();
+    public static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
 
     public static File getDefaultConfigDir() {
         String osName = System.getProperty("os.name");
@@ -46,14 +35,5 @@ public class Util {
         }
 
         return map;
-    }
-
-    public static JsonObject jsonPost(String url, JsonObject body) {
-        return new HttpBuilder<JsonObject, JsonObject>(url)
-            .header("Accept", "application/json")
-            .body(Http::jsonBody, body)
-            .responseHandler(Http::checkStatus)
-            .execute()
-            .into(Http::jsonResponse);
     }
 }

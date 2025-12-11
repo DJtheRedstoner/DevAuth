@@ -25,7 +25,8 @@ public enum Properties {
     public BooleanState getBooleanValue() {
         String key = getFullKey();
         if (System.getProperty(key) == null) return BooleanState.NOT_SET;
-        return BooleanState.of(Boolean.parseBoolean(getValue()));
+        String value = getValue();
+        return BooleanState.of("1".equals(value) || Boolean.parseBoolean(value));
     }
 
     public enum BooleanState {
