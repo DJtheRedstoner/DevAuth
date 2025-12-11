@@ -9,14 +9,6 @@ repositories {
 
 configureResources()
 
-java.toolchain {
-    languageVersion.set(JavaLanguageVersion.of(17))
-}
-
-tasks.withType<JavaCompile> {
-    options.release.set(17)
-}
-
 val shade: Configuration by configurations.creating {
     isTransitive = false
 }
