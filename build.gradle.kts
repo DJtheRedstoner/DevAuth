@@ -4,7 +4,7 @@ import org.gradle.jvm.tasks.Jar
 plugins {
     id("java-library")
     id("build-logic")
-    id("gg.essential.loom") version "1.6.17" apply false
+    id("fabric-loom") version "1.14.1" apply false
 }
 
 allprojects {

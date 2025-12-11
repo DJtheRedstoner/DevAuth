@@ -1,7 +1,7 @@
 import me.djtheredstoner.devauth.build.configureMcProject
 
 plugins {
-    id("gg.essential.loom")
+    id("fabric-loom")
 }
 
 loom {
@@ -16,15 +16,15 @@ loom {
 }
 
 dependencies {
-    minecraft("com.mojang:minecraft:1.18.2")
-    mappings("net.fabricmc:yarn:1.18.2+build.2:v2")
-    modCompileOnly(localRuntime("net.fabricmc:fabric-loader:0.14.23")!!)
+    minecraft("com.mojang:minecraft:1.21.11")
+    mappings(loom.officialMojangMappings())
+    modCompileOnly(localRuntime("net.fabricmc:fabric-loader:0.18.2")!!)
 
     api(project(":common"))
 
     include(project(":common"))
-    include("com.electronwill.night-config:core:3.6.5")
-    include("com.electronwill.night-config:toml:3.6.5")
+    include("com.electronwill.night-config:core:3.8.3")
+    include("com.electronwill.night-config:toml:3.8.3")
 }
 
 tasks.processResources {

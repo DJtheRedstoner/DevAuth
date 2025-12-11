@@ -18,6 +18,9 @@
     "mixins.devauth.json"
   ],
   "depends": {
-    "fabricloader": ">=0.7.4"
+    "fabricloader": "*"
+  },
+  "suggests": {
+    "fabricloader": ">=0.18.0"
   }
 }

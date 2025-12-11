@@ -14,7 +14,7 @@ val shade: Configuration by configurations.creating {
 }
 
 dependencies {
-    compileOnly("net.neoforged:neoforge:20.4.72-beta:universal")
+    compileOnly("net.neoforged:neoforge:21.11.3-beta:universal")
 
     compileOnly(project(":common"))
 
