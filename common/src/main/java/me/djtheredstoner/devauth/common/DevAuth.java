@@ -7,7 +7,12 @@ import me.djtheredstoner.devauth.common.config.DevAuthConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.StringJoiner;
 
 public class DevAuth {
 
@@ -45,11 +50,11 @@ public class DevAuth {
             }
         }
 
-        newArgs.add("--accessToken=" + data.getAccessToken());
-        newArgs.add("--uuid=" + data.getUuid());
-        newArgs.add("--username=" + data.getUsername());
-        newArgs.add("--userType=" + data.getUserType());
-        newArgs.add("--userProperties=" + data.getUserProperties());
+        newArgs.add("--accessToken=" + data.accessToken());
+        newArgs.add("--uuid=" + data.uuid());
+        newArgs.add("--username=" + data.username());
+        newArgs.add("--userType=" + data.userType());
+        newArgs.add("--userProperties=" + data.userProperties());
 
         return newArgs.toArray(new String[0]);
     }
@@ -57,11 +62,11 @@ public class DevAuth {
     public SessionData login() {
         Account account = getSelectedAccount();
 
-        IAuthProvider authProvider = account.getType().getAuthProviderFactory().create(this);
+        IAuthProvider authProvider = account.type().getAuthProviderFactory().create(this);
 
         SessionData session = authProvider.login(account);
 
-        logger.info("Successfully logged in as " + session.getUsername());
+        logger.info("Successfully logged in as " + session.username());
         return session;
     }
 
@@ -98,7 +103,7 @@ public class DevAuth {
     private String getValidAccounts() {
         StringJoiner joiner = new StringJoiner(", ");
         for (Account account : config.getAccounts().values()) {
-            joiner.add(account.getName());
+            joiner.add(account.name());
         }
         return joiner.toString();
     }

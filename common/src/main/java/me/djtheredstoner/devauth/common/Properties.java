@@ -45,11 +45,8 @@ public enum Properties {
         public boolean toBoolean() {
             if (this == NOT_SET) {
                 throw new UnsupportedOperationException("NOT_SET cannot be converted to a boolean value");
-            } else if (this == TRUE) {
-                return true;
-            } else {
-                return false;
             }
+            return this == TRUE;
         }
     }
 

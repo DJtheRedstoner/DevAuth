@@ -64,9 +64,7 @@ public class DevAuthConfig {
             Config value = entry.getValue();
             accounts.put(entry.getKey(), new Account(
                 entry.getKey(),
-                AccountType.of(value.get("type")),
-                value.get("username"),
-                value.get("password")
+                AccountType.of(value.get("type"))
             ));
         }
 

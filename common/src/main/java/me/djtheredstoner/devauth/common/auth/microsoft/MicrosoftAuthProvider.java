@@ -225,8 +225,8 @@ public class MicrosoftAuthProvider implements IAuthProvider {
 
             accountsData = parsed;
 
-            if (parsed.has(account.getName())) {
-                JsonObject accountData = parsed.get(account.getName()).getAsJsonObject();
+            if (parsed.has(account.name())) {
+                JsonObject accountData = parsed.get(account.name()).getAsJsonObject();
                 for (TokenKey<?> tokenKey : tokenRegistry.keySet()) {
                     if (accountData.has(tokenKey.getName())) {
                         Token token = Util.GSON.fromJson(accountData.get(tokenKey.getName()), tokenKey.getClazz());
@@ -244,7 +244,7 @@ public class MicrosoftAuthProvider implements IAuthProvider {
 
         if (accountsData == null) accountsData = new JsonObject();
         accountsData.addProperty("version", 1);
-        accountsData.remove(account.getName());
+        accountsData.remove(account.name());
 
         try {
             if (writeCurrentAccount) {
@@ -252,7 +252,7 @@ public class MicrosoftAuthProvider implements IAuthProvider {
                 for (Map.Entry<TokenKey<?>, Token> entry : tokenStore.entrySet()) {
                     accountData.add(entry.getKey().getName(), Util.GSON.toJsonTree(entry.getValue()));
                 }
-                accountsData.add(account.getName(), accountData);
+                accountsData.add(account.name(), accountData);
             }
 
             FileUtils.writeStringToFile(accountsJson, Util.GSON.toJson(accountsData), StandardCharsets.UTF_8);
