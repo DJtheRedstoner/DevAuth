@@ -8,9 +8,8 @@ Safely authenticate Minecraft accounts in development environments.
 
 | Versions               | Module         | Supported |
 |------------------------|----------------|:---------:|
-| 1.14 - 1.21 Fabric     | `fabric`       |     ✅     |
-| 1.14 - 1.21 Forge      | `forge-latest` |     ✅     |
-| 1.20.4 - 1.21 NeoForge | `neoforge`     |     ✅     |
+| 1.21.11 Fabric         | `fabric`       |     ✅    |
+| 1.21.11 NeoForge       | `neoforge`     |     ✅    |
 
 **Note:** If a version isn't listed above as supported, just try it.
 Additionally, the fabric module may work on other fabric-based loaders (such as legacy-fabric).
