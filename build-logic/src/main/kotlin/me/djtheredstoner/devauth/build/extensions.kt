@@ -52,12 +52,6 @@ fun Project.configureResources() {
 // please spare me (update 2023-10-14: i was not in fact spared)
 fun Project.configurePublishing() {
     configure<PublishingExtension> {
-        if (project.name == "forge-legacy") {
-            (components["java"] as AdhocComponentWithVariants).withVariantsFromConfiguration(configurations["shadowRuntimeElements"]) {
-                skip()
-            }
-        }
-
         publications.apply {
             create("maven", MavenPublication::class.java).apply {
                 artifactId = "DevAuth-${project.name}"

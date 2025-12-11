@@ -9,7 +9,6 @@ Safely authenticate Minecraft accounts in development environments.
 | Versions               | Module         | Supported |
 |------------------------|----------------|:---------:|
 | 1.14 - 1.21 Fabric     | `fabric`       |     ✅     |
-| 1.8.9 - 1.12.2 Forge   | `forge-legacy` |     ✅     |
 | 1.14 - 1.21 Forge      | `forge-latest` |     ✅     |
 | 1.20.4 - 1.21 NeoForge | `neoforge`     |     ✅     |
 
