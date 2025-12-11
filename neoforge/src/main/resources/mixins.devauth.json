@@ -1,6 +1,6 @@
 {
   "minVersion": "0.8",
-  "compatibilityLevel": "JAVA_8",
+  "compatibilityLevel": "JAVA_21",
   "package": "me.djtheredstoner.devauth.neoforge.mixins",
   "client": [
     "MainMixin"
