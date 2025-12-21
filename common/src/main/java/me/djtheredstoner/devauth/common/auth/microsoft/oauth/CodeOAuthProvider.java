@@ -21,7 +21,7 @@ import java.util.concurrent.CompletableFuture;
 
 public class CodeOAuthProvider extends OAuthProvider {
 
-    private static final String REDIRECT_URI = "http://127.0.0.1:3000";
+    private static final String REDIRECT_URI = "http://127.0.0.1:%d";
     private static final String OAUTH_URL = "https://login.live.com/oauth20_authorize.srf";
     private static final String OAUTH_TOKEN_URL = "https://login.live.com/oauth20_token.srf";
 
@@ -35,10 +35,10 @@ public class CodeOAuthProvider extends OAuthProvider {
         new SecureRandom().nextBytes(bytes);
         String codeVerifier = Base64.getUrlEncoder().withoutPadding().encodeToString(bytes);
 
-        String oAuthCode = getAuthorizationCode(codeVerifier);
+        AuthorizationCodeAndPort oAuthCode = getAuthorizationCode(codeVerifier);
 
-        return getAuthorizationToken(Util.stringMap(
-            "code", oAuthCode,
+        return getAuthorizationToken(oAuthCode.getPort(), Util.stringMap(
+            "code", oAuthCode.getCode(),
             "grant_type", "authorization_code",
             "code_verifier", codeVerifier
         ));
@@ -47,7 +47,9 @@ public class CodeOAuthProvider extends OAuthProvider {
     @Override
     public OAuthToken refreshToken(OAuthToken token) {
         try {
-            return getAuthorizationToken(Util.stringMap(
+            // Previously the port was hardcoded to 3000, so default to that if it's not set
+            int port = token.getPort() != null ? token.getPort() : 3000;
+            return getAuthorizationToken(port, Util.stringMap(
                 "grant_type", "refresh_token",
                 "refresh_token", token.getRefreshToken()
             ));
@@ -57,24 +59,26 @@ public class CodeOAuthProvider extends OAuthProvider {
         }
     }
 
-    private OAuthToken getAuthorizationToken(Map<String, String> extraParams) {
+    private OAuthToken getAuthorizationToken(int port, Map<String, String> extraParams) {
         Map<String, String> params = Util.stringMap(
             "client_id", Constants.CLIENT_ID,
             "scope", scopes,
-            "redirect_uri", REDIRECT_URI
+            "redirect_uri", String.format(REDIRECT_URI, port)
         );
         params.putAll(extraParams);
 
         JsonObject res = Util.client.urlEncodedJsonPost(OAUTH_TOKEN_URL, params);
 
-        return OAuthToken.fromJson(res);
+        return OAuthToken.fromJson(res, port);
     }
 
-    public String getAuthorizationCode(String codeVerifier) {
+    public AuthorizationCodeAndPort getAuthorizationCode(String codeVerifier) {
         HttpServer server = null;
         try {
-            server = HttpServer.create(new InetSocketAddress("0.0.0.0", 3000), 0);
-            CompletableFuture<String> future = new CompletableFuture<>();
+            server = HttpServer.create(new InetSocketAddress("0.0.0.0", 0), 0);
+            CompletableFuture<AuthorizationCodeAndPort> future = new CompletableFuture<>();
+            int port = server.getAddress().getPort();
+
             server.createContext("/", (req) -> {
                 URI uri = req.getRequestURI();
 
@@ -103,14 +107,14 @@ public class CodeOAuthProvider extends OAuthProvider {
                     );
                 }
 
-                future.complete(query.get("code"));
+                future.complete(new AuthorizationCodeAndPort(query.get("code"), port));
             });
             server.start();
 
             String queryString = MSAUtil.buildQuery(Util.stringMap(
                 "client_id", Constants.CLIENT_ID,
                 "response_type", "code",
-                "redirect_uri", REDIRECT_URI,
+                "redirect_uri", String.format(REDIRECT_URI, server.getAddress().getPort()),
                 "scope", scopes,
                 "prompt", "select_account",
                 "code_challenge", Base64.getUrlEncoder().withoutPadding().encodeToString(DigestUtils.sha256(codeVerifier)),
