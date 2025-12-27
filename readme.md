@@ -89,8 +89,11 @@ folder.
 |   OS    | Default config directory                                      |
 |:-------:|---------------------------------------------------------------|
 | Windows | `C:\Users\<user>\.devauth`                                    |
-|  MacOS  | `/Users/<user>/.devauth`                                      |
+|  MacOS  | `/Users/<user>/Library/Application Support/DevAuth`           |
 |  Linux  | `$XDG_CONFIG_HOME/devauth`, defaulting to `~/.config/devauth` |
+
+> [!NOTE]
+> The configuration directory on macOS used to be `/Users/<user>/.devauth`, but has since changed to `/Users/<user>/Library/Application Support/DevAuth`. You should be able to copy the contents of the old directory into the new directory.
 
 ### Config file format
 
