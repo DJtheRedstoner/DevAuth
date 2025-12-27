@@ -107,8 +107,10 @@ defaultAccount = "main"
 type = "microsoft"
 
 # A second account, which can be selected by changing defaultAccount above or using the devauth.account property
+# forcedusername makes it so you can only login with the username specified. This is so If you want to use different Accounts you cant login with the other one by accident
 [accounts.alt]
 type = "microsoft"
+forcedusername = "examplename"
 ```
 When the `devauth.account` property is specified it takes precedence over the
 `defaultAccount` config option.

@@ -11,7 +11,7 @@ import java.net.Proxy;
 public class MojangAuthProvider implements IAuthProvider {
 
     @Override
-    public SessionData login(Account account) {
+    public SessionData login(Account account, Boolean relogin) {
         UserAuthentication auth = new YggdrasilAuthenticationService(Proxy.NO_PROXY, "1")
             .createUserAuthentication(Agent.MINECRAFT);
 

@@ -4,6 +4,6 @@ import me.djtheredstoner.devauth.common.config.Account;
 
 public interface IAuthProvider {
 
-    SessionData login(Account account);
+    SessionData login(Account account, Boolean reLogin);
 
 }

@@ -12,7 +12,7 @@ import java.util.*;
 public class DevAuth {
 
     private static final Set<String> authOptions =
-        new HashSet<>(Arrays.asList("--accessToken", "--uuid", "--username", "--userType", "--userProperties"));
+            new HashSet<>(Arrays.asList("--accessToken", "--uuid", "--username", "--userType", "--userProperties"));
 
     private final Properties.BooleanState enabled;
     private final Logger logger;
@@ -40,7 +40,8 @@ public class DevAuth {
             String arg = args[i];
             if (authOptions.contains(arg)) {
                 i++;
-            } else {
+            }
+            else {
                 newArgs.add(arg);
             }
         }
@@ -59,8 +60,11 @@ public class DevAuth {
 
         IAuthProvider authProvider = account.getType().getAuthProviderFactory().create(this);
 
-        SessionData session = authProvider.login(account);
-
+        SessionData session = authProvider.login(account, false);
+        while (account.getForceUsername() != null && !account.getForceUsername().equals(session.getUsername())) {
+            logger.error("Login Blocked: You logined with the wrong Account. You want to login as " + account.getForceUsername() + " but logined as " + session.getUsername() + "!");
+            session = authProvider.login(account, true);
+        }
         logger.info("Successfully logged in as " + session.getUsername());
         return session;
     }
@@ -74,7 +78,8 @@ public class DevAuth {
                 return config.getAccounts().get(commandLineAccount);
             }
             throw new RuntimeException("Account '" + commandLineAccount + "' not found, valid accounts are: " + getValidAccounts());
-        } else if (defaultAccount != null) {
+        }
+        else if (defaultAccount != null) {
             if (config.getAccounts().containsKey(defaultAccount)) {
                 return config.getAccounts().get(defaultAccount);
             }
@@ -86,7 +91,8 @@ public class DevAuth {
     public boolean isEnabled(boolean defaultEnabled) {
         if (enabled == Properties.BooleanState.NOT_SET) {
             return defaultEnabled;
-        } else {
+        }
+        else {
             return enabled.toBoolean();
         }
     }

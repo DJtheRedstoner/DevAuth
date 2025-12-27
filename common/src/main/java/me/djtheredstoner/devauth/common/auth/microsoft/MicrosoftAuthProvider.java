@@ -28,7 +28,6 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.function.Supplier;
 
 /**
  * (the third rewrite of) <br/>
@@ -54,7 +53,7 @@ public class MicrosoftAuthProvider implements IAuthProvider {
     private final DevAuth devAuth;
     private final OAuthProvider oAuthProvider = new CodeOAuthProvider(logger, SCOPES);
 
-    private final Map<TokenKey<?>, Supplier<? extends Token>> tokenRegistry = new LinkedHashMap<>();
+    private final Map<TokenKey<?>, TokenSupplier<? extends Token>> tokenRegistry = new LinkedHashMap<>();
     private final Map<TokenKey<?>, Token> tokenStore = new LinkedHashMap<>();
 
     private JsonObject accountsData;
@@ -71,14 +70,15 @@ public class MicrosoftAuthProvider implements IAuthProvider {
         register(TokenKey.SESSION_TOKEN, this::getMcSession);
     }
 
-    protected <T extends Token> void register(TokenKey<T> tokenKey, Supplier<T> supplier) {
+    protected <T extends Token> void register(TokenKey<T> tokenKey, TokenSupplier<T> supplier) {
         tokenRegistry.put(tokenKey, supplier);
     }
 
     @SuppressWarnings("unchecked")
-    protected <T extends Token> T get(TokenKey<T> tokenKey) {
-        Supplier<T> supplier = (Supplier<T>) tokenRegistry.get(tokenKey);
+    protected <T extends Token> T get(TokenKey<T> tokenKey, Boolean relogin) {
+        TokenSupplier<T> supplier = (TokenSupplier<T>) tokenRegistry.get(tokenKey);
         T token = (T) tokenStore.get(tokenKey);
+        if (relogin) token = null;
         if (token == null || token.isExpired()) {
             logger.info("Fetching token " + tokenKey.getName());
             if (token instanceof OAuthToken) {
@@ -88,10 +88,11 @@ public class MicrosoftAuthProvider implements IAuthProvider {
                     token = (T) oAuthProvider.refreshToken(oAuthToken);
                 } catch (Exception e) {
                     logger.error("Failed to refresh OAuth token", e);
-                    token = supplier.get();
+                    token = supplier.get(relogin);
                 }
-            } else {
-                token = supplier.get();
+            }
+            else {
+                token = supplier.get(relogin);
             }
 
             OffsetDateTime expiry = OffsetDateTime.ofInstant(Instant.ofEpochSecond(token.getExpiry()), ZoneOffset.UTC);
@@ -105,12 +106,12 @@ public class MicrosoftAuthProvider implements IAuthProvider {
         return token;
     }
 
-    protected OAuthToken getOAuthToken() {
+    protected OAuthToken getOAuthToken(Boolean relogin) {
         return oAuthProvider.getOAuthToken();
     }
 
-    protected XBLToken getXBLToken() {
-        OAuthToken oAuthToken = get(TokenKey.OAUTH_TOKEN);
+    protected XBLToken getXBLToken(Boolean relogin) {
+        OAuthToken oAuthToken = get(TokenKey.OAUTH_TOKEN, relogin);
 
         JsonObject object = new JsonObject();
 
@@ -129,8 +130,8 @@ public class MicrosoftAuthProvider implements IAuthProvider {
         return XBLToken.fromJson(res, true);
     }
 
-    protected XBLToken getXSTSToken() {
-        XBLToken xblToken = get(TokenKey.XBL_TOKEN);
+    protected XBLToken getXSTSToken(Boolean relogin) {
+        XBLToken xblToken = get(TokenKey.XBL_TOKEN, relogin);
 
         JsonObject object = new JsonObject();
 
@@ -149,8 +150,8 @@ public class MicrosoftAuthProvider implements IAuthProvider {
         return XBLToken.fromJson(res, true);
     }
 
-    protected Token getMcSession() {
-        XBLToken xstsToken = get(TokenKey.XSTS_TOKEN);
+    protected Token getMcSession(Boolean relogin) {
+        XBLToken xstsToken = get(TokenKey.XSTS_TOKEN, relogin);
 
         JsonObject object = new JsonObject();
         object.addProperty("identityToken", "XBL3.0 x=" + xstsToken.getUserHash() + ";" + xstsToken.getToken());
@@ -161,10 +162,10 @@ public class MicrosoftAuthProvider implements IAuthProvider {
     }
 
     @Override
-    public SessionData login(Account account) {
+    public SessionData login(Account account, Boolean reLogin) {
         readAccountsJson(account);
         try {
-            SessionData data = getMinecraftProfile();
+            SessionData data = getMinecraftProfile(reLogin);
             writeAccountsJson(account, true);
             return data;
         } catch (Exception e) {
@@ -173,8 +174,8 @@ public class MicrosoftAuthProvider implements IAuthProvider {
         }
     }
 
-    protected SessionData getMinecraftProfile() {
-        Token mcSession = get(TokenKey.SESSION_TOKEN);
+    protected SessionData getMinecraftProfile(Boolean relogin) {
+        Token mcSession = get(TokenKey.SESSION_TOKEN, relogin);
 
         try {
             JsonObject profileObject = Util.client.authorizedJsonGet(
@@ -183,11 +184,11 @@ public class MicrosoftAuthProvider implements IAuthProvider {
             );
 
             return new SessionData(
-                mcSession.getToken(),
-                profileObject.get("id").getAsString(),
-                profileObject.get("name").getAsString(),
-                "msa",
-                "{}"
+                    mcSession.getToken(),
+                    profileObject.get("id").getAsString(),
+                    profileObject.get("name").getAsString(),
+                    "msa",
+                    "{}"
             );
         } catch (Exception e) {
             throw new RuntimeException("Failed to fetch minecraft profile, does the user own the game?", e);
@@ -242,5 +243,9 @@ public class MicrosoftAuthProvider implements IAuthProvider {
         } catch (Exception e) {
             logger.error("Failed to write microsoft_accounts.json", e);
         }
+    }
+    @FunctionalInterface
+    public interface TokenSupplier<T>{
+        T get(Boolean reLogin);
     }
 }

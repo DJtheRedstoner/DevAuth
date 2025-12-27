@@ -66,7 +66,8 @@ public class DevAuthConfig {
                 entry.getKey(),
                 AccountType.of(value.get("type")),
                 value.get("username"),
-                value.get("password")
+                value.get("password"),
+                value.get("forcedusername")
             ));
         }
 

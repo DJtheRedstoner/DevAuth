@@ -6,12 +6,14 @@ public class Account {
     private final AccountType type;
     private final String username;
     private final String password;
+    private final String forceUsername;
 
-    public Account(String name, AccountType type, String username, String password) {
+    public Account(String name, AccountType type, String username, String password, String forceUsername) {
         this.name = name;
         this.type = type;
         this.username = username;
         this.password = password;
+        this.forceUsername = forceUsername;
     }
 
     public String getName() {
@@ -28,5 +30,9 @@ public class Account {
 
     public String getPassword() {
         return password;
+    }
+
+    public String getForceUsername() {
+        return forceUsername;
     }
 }
